@@ -74,6 +74,7 @@ class Kvad(TerenskoVozilo):
 if __name__ == '__main__':
     #Test:
     #prostor, automobil, dzip, kvad - entiteti sa kojima se radi
+    '''
     prostor = IzlozbeniProstor('p1', 'prostor1', 'Novi Sad')
     automobil = Automobil('a1', 'vozilo1', 1, 2, 3, 60, 1992, prostor, 3, 4, TipMenjaca.AUTOMATSKI)
     dzip = Dzip('dz1', 'dzip1', 2, 3, 4, 80, 1993, prostor, 4,  True, 120, False)
@@ -83,4 +84,5 @@ if __name__ == '__main__':
     print(automobil)
     print(dzip)
     print(kvad)
+    '''
     
