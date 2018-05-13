@@ -5,6 +5,9 @@ Created on May 12, 2018
 '''
 from model.salon import IzlozbeniProstor, Automobil, TipMenjaca, Dzip, Kvad
 from util.pickleUnpickle import Pickle, UnPickle
+from model.singleton import Projekat
+import controller
+from controller.prostori import najbrza_vozila, vozila_prostora, najbrza_vozila
 
 
 if __name__ == '__main__':
@@ -39,6 +42,14 @@ if __name__ == '__main__':
     Pickle('kvadovi.bin', kvadovi)
     '''
     
+    '''
+    nekiProstor = Projekat().prostori[0]
+    print(nekiProstor)
+    
+    
+    print(najbrza_vozila(nekiProstor))
+    print(vozila_prostora(nekiProstor))
+    '''
     
     
     
