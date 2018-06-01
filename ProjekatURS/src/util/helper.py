@@ -11,6 +11,7 @@ from controller.prostori import najbrza_vozila, vozila_prostora, najbrza_vozila
 
 
 if __name__ == '__main__':
+    
     '''
     prostor1 = IzlozbeniProstor('p1', 'prostor1', 'Novi Sad')
     prostor2 = IzlozbeniProstor('p2', 'prostor1', 'Beograd')
