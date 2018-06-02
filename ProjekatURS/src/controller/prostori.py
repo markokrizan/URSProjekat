@@ -8,6 +8,12 @@ from model.salon import *
 from util.pickleUnpickle import Pickle, UnPickle
 
 
+def prostorIzOznake(oznaka):
+    for i in Projekat().prostori:
+        if i.oznaka == oznaka:
+            return i
+
+
 def DodajProstor(prostor):
     Projekat().prostori.append(prostor)
     Pickle('prostori.bin', Projekat().prostori)
@@ -45,7 +51,17 @@ def vozila_prostora(prostor):
             vozila.append(i)
     return vozila
     
-    
+
+def tipVozila(prostor, oznakaVozila):
+    vozila = vozila_prostora(prostor)
+    for i in vozila:
+        if i.oznaka == oznakaVozila:
+            if isinstance(i, Automobil):
+                return "automobil"
+            elif isinstance(i, Dzip):
+                return "dzip"
+            elif isinstance(i, Kvad):
+                return "kvad"
     
 
 def najbrza_vozila(prostor):

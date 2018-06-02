@@ -8,9 +8,15 @@ Created on May 31, 2018
 from tkinter import *
 from tkinter import ttk
 
+from controller.prostori import prostorIzOznake
 from model.singleton import Projekat
 import tkinter as tk
+from view.detaljiProstori import DetaljiProstor
 from view.gui_utils import Centriraj
+from tkinter import messagebox
+from view.detaljiAutomobili import DetaljiAutomobili
+from view.detaljiDzipovi import DetaljiDzipovi
+from view.detaljiKvadovi import DetaljiKvadovi
 
 
 class GlavniProzor(tk.Tk):
@@ -118,7 +124,7 @@ class GlavniProzor(tk.Tk):
         izmeniBTN = Button(CRUDBarProstori, text = "Izmeni")
         izmeniBTN.pack(side = LEFT, padx=1, pady=1)
         
-        obrisiBTN = Button(CRUDBarProstori, text = "Vozila")
+        obrisiBTN = Button(CRUDBarProstori, text = "Vozila", command = self.detaljiProstori)
         obrisiBTN.pack(side = LEFT, padx=1, pady=1)
         
         
@@ -181,7 +187,7 @@ class GlavniProzor(tk.Tk):
         izmeniAutomobiliBTN = Button(CRUDBarAutomobili, text = "Izmeni")
         izmeniAutomobiliBTN.pack(side = LEFT, padx=1, pady=1)
         
-        detaljiAutomobiliBTN = Button(CRUDBarAutomobili, text = "Detalji")
+        detaljiAutomobiliBTN = Button(CRUDBarAutomobili, text = "Detalji", command = self.detaljiAutomobili)
         detaljiAutomobiliBTN.pack(side = LEFT, padx=1, pady=1)
         
         
@@ -261,7 +267,7 @@ class GlavniProzor(tk.Tk):
         izmeniDzipBTN = Button(CRUDBarDzipovi, text = "Izmeni")
         izmeniDzipBTN.pack(side = LEFT, padx=1, pady=1)
         
-        detaljiDzipBTN = Button(CRUDBarDzipovi, text = "Detalji")
+        detaljiDzipBTN = Button(CRUDBarDzipovi, text = "Detalji", command = self.detaljiDzipovi)
         detaljiDzipBTN.pack(side = LEFT, padx=1, pady=1)
         
         
@@ -342,7 +348,7 @@ class GlavniProzor(tk.Tk):
         izmeniKvadBTN = Button(CRUDBarKvadovi, text = "Izmeni")
         izmeniKvadBTN.pack(side = LEFT, padx=1, pady=1)
         
-        detaljiKvadBTN = Button(CRUDBarKvadovi, text = "Detalji")
+        detaljiKvadBTN = Button(CRUDBarKvadovi, text = "Detalji", command = self.detaljiKvadovi)
         detaljiKvadBTN.pack(side = LEFT, padx=1, pady=1)
         
         
@@ -399,6 +405,8 @@ class GlavniProzor(tk.Tk):
         
     # -----------------------------------------------------------------------------------------------------------------------------    
         
+    #Funkcije za osvezavanje:
+    
     def OsveziProstore(self):
         #prvo ocisti
         for i in self.treeProstori.get_children():
@@ -430,6 +438,45 @@ class GlavniProzor(tk.Tk):
         #ponovo ucitaj iz kolekcije
         for index, i in enumerate(Projekat().kvadovi):
             self.treeKvadovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+    
+    #Funkcije za detalje:
+    
+    def detaljiProstori(self):
+        try:
+            selektovani = self.treeProstori.selection()[0]
+            oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
+            DetaljiProstor(self, oznakaProstora)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+        
+    def detaljiAutomobili(self):
+        try:
+            selektovani = self.treeAutomobili.selection()[0]
+            oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
+            DetaljiAutomobili(self, oznakaAutomobila)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+        
+    
+    def detaljiDzipovi(self):
+        try:
+            selektovani = self.treeDzipovi.selection()[0]
+            oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
+            DetaljiDzipovi(self, oznakaDzipa)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+    
+    def detaljiKvadovi(self):
+        try:
+            selektovani = self.treeKvadovi.selection()[0]
+            oznakaKvada = self.treeKvadovi.item(selektovani)['values'][0]
+            DetaljiKvadovi(self, oznakaKvada)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+    
+    
+    
     
     
     

@@ -10,6 +10,11 @@ from util.pickleUnpickle import Pickle, UnPickle
 def DodajDzip(dzip):
     Projekat().dzipovi.append(dzip)
     Pickle('dzipovi.bin', Projekat().dzipovi)
+    
+def dzipIzOznake(oznaka):
+    for i in Projekat().dzipovi:
+        if i.oznaka == oznaka:
+            return i
 
 def IzmeniDzip(dzip):
     for i in Projekat().dzipovi:

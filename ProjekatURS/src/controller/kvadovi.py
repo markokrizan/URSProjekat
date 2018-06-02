@@ -10,6 +10,11 @@ from util.pickleUnpickle import Pickle, UnPickle
 def DodajKvad(kvad):
     Projekat().kvadovi.append(kvad)
     Pickle('kvadovi.bin', Projekat().kvadovi)
+    
+def kvadIzOznake(oznaka):
+    for i in Projekat().kvadovi:
+        if i.oznaka == oznaka:
+            return i
 
 def IzmeniKvad(kvad):
     for i in Projekat().kvadovi:

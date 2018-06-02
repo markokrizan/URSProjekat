@@ -9,6 +9,11 @@ from util.pickleUnpickle import Pickle, UnPickle
 def DodajAutomobil(automobil):
     Projekat().automobili.append(automobil)
     Pickle('automobili.bin', Projekat().automobil)
+    
+def automobilIzOznake(oznaka):
+    for i in Projekat().automobili:
+        if i.oznaka == oznaka:
+            return i
 
 def IzmeniAutomobil(automobil):
     for i in Projekat().automobili:
