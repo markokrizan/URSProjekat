@@ -3,6 +3,8 @@ Created on May 31, 2018
 
 @author: freeman
 '''
+
+'''
 try:
     from Tkinter import *
     from ttk import *
@@ -24,7 +26,7 @@ class App(Frame):
     def CreateUI(self):
         treeAutomobili = Treeview(self)
         
-        '''
+        
         tv['columns'] = ('starttime', 'endtime', 'status', 'nesto', 'nesto1', 'nesto2')
         
         
@@ -49,7 +51,7 @@ class App(Frame):
         tv.heading('nesto1', text='Nesto2')
         tv.heading('nesto1', text='Nesto2')
         
-        '''
+        
         treeAutomobili["columns"] = ( "Oznaka", "Opis", "Duzina", "Sirina", "Visina", "Maksimalna brzina", "Godina proizvodnje",
                                            "Izlozbeni prostor", "Broj vrata", "Broj sedista", "Tip menjaca")
         
@@ -100,3 +102,57 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+'''
+  
+'''      
+import sys
+from tkinter import *
+
+# My frame for form
+class simpleform_ap(Tk):
+
+    def __init__(self,parent):
+        Tk.__init__(self,parent)
+        self.parent = parent
+        self.initialize()
+        self.grid()
+
+    def initialize(self):
+        # Dropdown Menu
+        optionList = ["Yes","No"]
+        self.dropVar=StringVar()
+        self.dropVar.set(optionList[0]) # default choice
+        self.dropMenu1 = OptionMenu(self, self.dropVar, *optionList,
+                                    command=self.func)
+        self.dropMenu1.grid(column=1,row=4)
+
+    def func(self,value):
+        print (value)
+
+
+def create_form(argv):
+    form = simpleform_ap(None)
+    form.title('My form')
+    form.mainloop()
+
+if __name__ == "__main__":
+    create_form(sys.argv)
+    
+'''
+    
+from tkinter import *
+master = Tk()
+
+def var_states():
+   print("male: %d,\nfemale: %d" % (var1.get(), var2.get()))
+
+Label(master, text="Your sex:").grid(row=0, sticky=W)
+var1 = IntVar()
+var1.set(1)
+Checkbutton(master, text="male", variable=var1).grid(row=1, sticky=W)
+var2 = IntVar()
+Checkbutton(master, text="female", variable=var2).grid(row=2, sticky=W)
+Button(master, text='Quit', command=master.quit).grid(row=3, sticky=W, pady=4)
+Button(master, text='Show', command=var_states).grid(row=4, sticky=W, pady=4)
+mainloop()

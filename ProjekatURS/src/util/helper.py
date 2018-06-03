@@ -52,5 +52,23 @@ if __name__ == '__main__':
     print(vozila_prostora(nekiProstor))
     '''
     
+    '''
+    prostori = ['p1', 'p2', 'p3']
+    print ([s for s in prostori if 'p1' in s][0])
+    '''
     
+    #Unpickle everything:
+    '''
+    automobili = []
+    Pickle('automobili.bin', automobili)
+    
+    prostor1 = IzlozbeniProstor('p1', 'prostor1', 'Novi Sad')
+    prostor2 = IzlozbeniProstor('p2', 'prostor1', 'Beograd')
+    automobil1 = Automobil('a1', 'automobil1', 1, 2, 3, 60, 1992, prostor1, 3, 4, TipMenjaca.AUTOMATSKI)
+    automobil2 = Automobil('a2', 'automobil2', 1, 2, 3, 60, 1992, prostor2, 3, 4, TipMenjaca.AUTOMATSKI)
+    automobili = [automobil1, automobil2]
+    Pickle('automobili.bin', automobili)
+    
+    '''
+    print(TipMenjaca['MANUELNI'])
     

@@ -8,12 +8,19 @@ from util.pickleUnpickle import Pickle, UnPickle
 
 def DodajAutomobil(automobil):
     Projekat().automobili.append(automobil)
-    Pickle('automobili.bin', Projekat().automobil)
+    Pickle('automobili.bin', Projekat().automobili)
     
 def automobilIzOznake(oznaka):
     for i in Projekat().automobili:
         if i.oznaka == oznaka:
             return i
+
+def generisiOznaku():
+    brojac = 1
+    for i in Projekat().automobili:
+        brojac += 1
+    oznaka = 'a' + str(brojac)
+    return oznaka
 
 def IzmeniAutomobil(automobil):
     for i in Projekat().automobili:
@@ -27,6 +34,15 @@ def IzmeniAutomobil(automobil):
             i.izlozbeni_prostor = automobil.izlozbeni_prostor
             i.broj_vrata = automobil.broj_vrata
             i.broj_sedista = automobil.broj_sedista
+            i.tip_menjaca = automobil.tip_menjaca
+    Pickle('automobili.bin', Projekat().automobili)
+
+def ObrisiAutomobil(oznaka):
+    automobil_za_brisanje = None
+    for i in Projekat().automobili:
+        if i.oznaka == oznaka:
+            automobil_za_brisanje = i
+    Projekat().automobili.remove(automobil_za_brisanje)
     Pickle('automobili.bin', Projekat().automobili)
     
 def nadjiAutomobile(kriterijum):

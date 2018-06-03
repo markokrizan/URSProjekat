@@ -5,19 +5,18 @@ Created on Jun 1, 2018
 '''
 
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 
+from controller.automobili import automobilIzOznake
 from controller.prostori import prostorIzOznake
 from model.singleton import Projekat
 import tkinter as tk
-#from view.detaljiProstori import DetaljiProstor
+import view.detaljiProstori 
 from view.gui_utils import Centriraj
-from tkinter import messagebox
-from controller.automobili import automobilIzOznake
-import view.detaljiProstori
-from view import detaljiProstori
 
 
+#from view.detaljiProstori import DetaljiProstor
 class DetaljiAutomobili(tk.Tk):
     def __init__(self, glavni, oznakaAutomobila):
         
@@ -86,7 +85,8 @@ class DetaljiAutomobili(tk.Tk):
     
     def prostor(self):
         prostor = self.automobil.izlozbeni_prostor
-        detaljiProstori.ProstorInfo(self, prostor.oznaka)
+        #ProstorInfo(self, prostor.oznaka)
+        view.detaljiProstori.ProstorInfo(self, prostor.oznaka)
         
     def Napuni(self):
         #moguc prolaz kroz sve atribute:

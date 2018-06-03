@@ -15,7 +15,8 @@ from view.gui_utils import Centriraj
 from tkinter import messagebox
 from controller.dzipovi import dzipIzOznake
 import view.detaljiProstori
-from view import detaljiProstori
+
+
 
 
 class DetaljiDzipovi(tk.Tk):
@@ -80,7 +81,7 @@ class DetaljiDzipovi(tk.Tk):
         
     def prostor(self):
         prostor = self.dzip.izlozbeni_prostor
-        detaljiProstori.ProstorInfo(self, prostor.oznaka)
+        view.detaljiProstori.ProstorInfo(self, prostor.oznaka)
         
     def Napuni(self):
         

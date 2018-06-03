@@ -15,7 +15,7 @@ from view.gui_utils import Centriraj
 from tkinter import messagebox
 from controller.kvadovi import kvadIzOznake
 import view.detaljiProstori
-from view import detaljiProstori
+
 
 class DetaljiKvadovi(tk.Tk):
     def __init__(self, glavni, oznakaKvada):
@@ -79,7 +79,7 @@ class DetaljiKvadovi(tk.Tk):
         
     def prostor(self):
         prostor = self.kvad.izlozbeni_prostor
-        detaljiProstori.ProstorInfo(self, prostor.oznaka)
+        view.detaljiProstori.ProstorInfo(self, prostor.oznaka)
         
     def Napuni(self):
         

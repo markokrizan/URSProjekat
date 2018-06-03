@@ -6,17 +6,22 @@ Created on May 31, 2018
 
 #sudo apt-get install python3-tk
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 
-from controller.prostori import prostorIzOznake
+from controller.automobili import automobilIzOznake, ObrisiAutomobil
+from controller.dzipovi import dzipIzOznake, ObrisiDzip
+from controller.prostori import prostorIzOznake, ObrisiProstor
+from model.salon import IzlozbeniProstor, Automobil, Dzip, Kvad
 from model.singleton import Projekat
 import tkinter as tk
-from view.detaljiProstori import DetaljiProstor
-from view.gui_utils import Centriraj
-from tkinter import messagebox
+from view.FORME import ProstorCU, Operacija, AutomobilCU, DzipCU, KvadCU
 from view.detaljiAutomobili import DetaljiAutomobili
 from view.detaljiDzipovi import DetaljiDzipovi
 from view.detaljiKvadovi import DetaljiKvadovi
+from view.detaljiProstori import DetaljiProstor
+from view.gui_utils import Centriraj
+from controller.kvadovi import kvadIzOznake, ObrisiKvad
 
 
 class GlavniProzor(tk.Tk):
@@ -118,11 +123,14 @@ class GlavniProzor(tk.Tk):
         
         CRUDBarProstori = Frame(page1)
         
-        dodajBTN = Button(CRUDBarProstori, text = "Dodaj")
+        dodajBTN = Button(CRUDBarProstori, text = "Dodaj", command = self.DodajProstor)
         dodajBTN.pack(side = LEFT, padx=1, pady=1)
         
-        izmeniBTN = Button(CRUDBarProstori, text = "Izmeni")
+        izmeniBTN = Button(CRUDBarProstori, text = "Izmeni", command = self.IzmeniProstor)
         izmeniBTN.pack(side = LEFT, padx=1, pady=1)
+        
+        obrisiBTN = Button(CRUDBarProstori, text = "Obrisi", command = self.ObrisiProstor)
+        obrisiBTN.pack(side = LEFT, padx=1, pady=1)
         
         obrisiBTN = Button(CRUDBarProstori, text = "Vozila", command = self.detaljiProstori)
         obrisiBTN.pack(side = LEFT, padx=1, pady=1)
@@ -181,10 +189,13 @@ class GlavniProzor(tk.Tk):
         
         CRUDBarAutomobili = Frame(page2)
         
-        dodajAutomobiliBTN = Button(CRUDBarAutomobili, text = "Dodaj")
+        dodajAutomobiliBTN = Button(CRUDBarAutomobili, text = "Dodaj", command = self.DodajAutomobil)
         dodajAutomobiliBTN.pack(side = LEFT, padx=1, pady=1)
         
-        izmeniAutomobiliBTN = Button(CRUDBarAutomobili, text = "Izmeni")
+        izmeniAutomobiliBTN = Button(CRUDBarAutomobili, text = "Izmeni", command = self.IzmeniAutomobil)
+        izmeniAutomobiliBTN.pack(side = LEFT, padx=1, pady=1)
+        
+        izmeniAutomobiliBTN = Button(CRUDBarAutomobili, text = "Obrisi", command = self.ObrisiAutomobil)
         izmeniAutomobiliBTN.pack(side = LEFT, padx=1, pady=1)
         
         detaljiAutomobiliBTN = Button(CRUDBarAutomobili, text = "Detalji", command = self.detaljiAutomobili)
@@ -261,11 +272,14 @@ class GlavniProzor(tk.Tk):
         
         CRUDBarDzipovi = Frame(page3)
         
-        DodajDzipBTN = Button(CRUDBarDzipovi, text = "Dodaj")
+        DodajDzipBTN = Button(CRUDBarDzipovi, text = "Dodaj", command = self.DodajDzip)
         DodajDzipBTN.pack(side = LEFT, padx=1, pady=1)
         
-        izmeniDzipBTN = Button(CRUDBarDzipovi, text = "Izmeni")
+        izmeniDzipBTN = Button(CRUDBarDzipovi, text = "Izmeni", command = self.IzmeniDzip)
         izmeniDzipBTN.pack(side = LEFT, padx=1, pady=1)
+        
+        obrisiDzipBTN = Button(CRUDBarDzipovi, text = "Obrisi", command = self.ObrisiDzip)
+        obrisiDzipBTN.pack(side = LEFT, padx=1, pady=1)
         
         detaljiDzipBTN = Button(CRUDBarDzipovi, text = "Detalji", command = self.detaljiDzipovi)
         detaljiDzipBTN.pack(side = LEFT, padx=1, pady=1)
@@ -342,11 +356,14 @@ class GlavniProzor(tk.Tk):
         
         CRUDBarKvadovi = Frame(page4)
         
-        dodajKvadBTN = Button(CRUDBarKvadovi, text = "Dodaj")
+        dodajKvadBTN = Button(CRUDBarKvadovi, text = "Dodaj", command = self.DodajKvad)
         dodajKvadBTN.pack(side = LEFT, padx=1, pady=1)
         
-        izmeniKvadBTN = Button(CRUDBarKvadovi, text = "Izmeni")
+        izmeniKvadBTN = Button(CRUDBarKvadovi, text = "Izmeni", command = self.IzmeniKvad)
         izmeniKvadBTN.pack(side = LEFT, padx=1, pady=1)
+        
+        obrisiKvadBTN = Button(CRUDBarKvadovi, text = "Obrisi", command = self.ObrisiKvad)
+        obrisiKvadBTN.pack(side = LEFT, padx=1, pady=1)
         
         detaljiKvadBTN = Button(CRUDBarKvadovi, text = "Detalji", command = self.detaljiKvadovi)
         detaljiKvadBTN.pack(side = LEFT, padx=1, pady=1)
@@ -410,7 +427,7 @@ class GlavniProzor(tk.Tk):
     def OsveziProstore(self):
         #prvo ocisti
         for i in self.treeProstori.get_children():
-            self.tree.delete(i)
+            self.treeProstori.delete(i)
         #ponovo ucitaj iz kolekcije
         for index, i in enumerate(Projekat().prostori):
             self.treeProstori.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.lokacija))
@@ -418,7 +435,7 @@ class GlavniProzor(tk.Tk):
     def OsveziAutomobile(self):
         #prvo ocisti
         for i in self.treeAutomobili.get_children():
-            self.tree.delete(i)
+            self.treeAutomobili.delete(i)
         #ponovo ucitaj iz kolekcije
         for index, i in enumerate(Projekat().automobili):
             self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
@@ -426,7 +443,7 @@ class GlavniProzor(tk.Tk):
     def OsveziDzipove(self):
         #prvo ocisti
         for i in self.treeDzipovi.get_children():
-            self.tree.delete(i)
+            self.treeDzipovi.delete(i)
         #ponovo ucitaj iz kolekcije
         for index, i in enumerate(Projekat().dzipovi):
             self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
@@ -434,7 +451,7 @@ class GlavniProzor(tk.Tk):
     def OsveziKvadove(self):
         #prvo ocisti
         for i in self.treeKvadovi.get_children():
-            self.tree.delete(i)
+            self.treeKvadovi.delete(i)
         #ponovo ucitaj iz kolekcije
         for index, i in enumerate(Projekat().kvadovi):
             self.treeKvadovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
@@ -475,7 +492,124 @@ class GlavniProzor(tk.Tk):
         except IndexError:
             messagebox.showerror("Greska", "Nista nije selektovano")
     
+    #CREATE / UPDATE / DELETE
     
+    #Prostori:
+    
+    def DodajProstor(self):
+        prostor = IzlozbeniProstor.empty()
+        ProstorCU(prostor, Operacija.DODAVANJE, self)
+        
+    
+    def IzmeniProstor(self):
+        try:
+            selektovani = self.treeProstori.selection()[0]
+            oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
+            prostor = prostorIzOznake(oznakaProstora)
+            ProstorCU(prostor, Operacija.IZMENA, self)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    def ObrisiProstor(self):
+        try:
+            selektovani = self.treeProstori.selection()[0]
+            oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
+            odgovor = messagebox.askquestion("Obrisi", "Da li ste sigurni?", icon='warning')
+            if (odgovor == 'yes'):
+                ObrisiProstor(oznakaProstora)
+                self.OsveziProstore()
+            
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    #Automobili:
+    
+    def DodajAutomobil(self):
+        automobil = Automobil.empty()
+        #print(automobil)
+        AutomobilCU(automobil, Operacija.DODAVANJE, self)
+        
+    
+    def IzmeniAutomobil(self):
+        try:
+            selektovani = self.treeAutomobili.selection()[0]
+            oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
+            automobil = automobilIzOznake(oznakaAutomobila)
+            AutomobilCU(automobil, Operacija.IZMENA, self)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    def ObrisiAutomobil(self):
+        try:
+            selektovani = self.treeAutomobili.selection()[0]
+            oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
+            odgovor = messagebox.askquestion("Obrisi", "Da li ste sigurni?", icon='warning')
+            if (odgovor == 'yes'):
+                ObrisiAutomobil(oznakaAutomobila)
+                self.OsveziAutomobile()
+            
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    #Dzipovi
+    def DodajDzip(self):
+        dzip = Dzip.empty()
+        #print(automobil)
+        DzipCU(dzip, Operacija.DODAVANJE, self)
+        
+    
+    def IzmeniDzip(self):
+        try:
+            selektovani = self.treeDzipovi.selection()[0]
+            oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
+            dzip = dzipIzOznake(oznakaDzipa)
+            DzipCU(dzip, Operacija.IZMENA, self)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    def ObrisiDzip(self):
+        try:
+            selektovani = self.treeDzipovi.selection()[0]
+            oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
+            odgovor = messagebox.askquestion("Obrisi", "Da li ste sigurni?", icon='warning')
+            if (odgovor == 'yes'):
+                ObrisiDzip(oznakaDzipa)
+                self.OsveziDzipove()
+            
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    #Kvadovi:
+    
+    def DodajKvad(self):
+        kvad = Kvad.empty()
+        KvadCU(kvad, Operacija.DODAVANJE, self)
+        
+    
+    def IzmeniKvad(self):
+        try:
+            selektovani = self.treeKvadovi.selection()[0]
+            oznakaKvad = self.treeKvadovi.item(selektovani)['values'][0]
+            kvad = kvadIzOznake(oznakaKvad)
+            KvadCU(kvad, Operacija.IZMENA, self)
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    def ObrisiKvad(self):
+        try:
+            selektovani = self.treeKvadovi.selection()[0]
+            oznakaKvad = self.treeKvadovi.item(selektovani)['values'][0]
+            odgovor = messagebox.askquestion("Obrisi", "Da li ste sigurni?", icon='warning')
+            if (odgovor == 'yes'):
+                ObrisiKvad(oznakaKvad)
+                self.OsveziKvadove()
+            
+        except IndexError:
+            messagebox.showerror("Greska", "Nista nije selektovano")
+    
+    
+    
+        
     
     
     

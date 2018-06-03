@@ -14,10 +14,11 @@ from model.singleton import Projekat
 import tkinter as tk
 from view.gui_utils import Centriraj
 from controller import prostori
+
 from view.detaljiDzipovi import DetaljiDzipovi
 from view.detaljiKvadovi import DetaljiKvadovi
-from view.detaljiAutomobili import DetaljiAutomobili
-
+#from view.detaljiAutomobili import DetaljiAutomobili
+import view.detaljiAutomobili
 
 class DetaljiProstor(tk.Tk):
     def __init__(self, glavni, oznakaProstora):
@@ -266,9 +267,9 @@ class DetaljiProstor(tk.Tk):
     
     def NapuniNajbrza(self):
         najbrza = najbrza_vozila(self.prostor)
-    
-        for index, i in enumerate(najbrza):
-            self.treeNajbrza.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        if najbrza != None:
+            for index, i in enumerate(najbrza):
+                self.treeNajbrza.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
             
     def Detalji(self):
         trenutniTab = self.nb.index("current")
@@ -277,7 +278,7 @@ class DetaljiProstor(tk.Tk):
                 selektovani = self.treeVozila.selection()[0]
                 oznaka= self.treeVozila.item(selektovani)['values'][0]
                 if (tipVozila(self.prostor, oznaka) == 'automobil'):
-                    DetaljiAutomobili(self, oznaka)
+                    view.detaljiAutomobili.DetaljiAutomobili(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'dzip'):
                     DetaljiDzipovi(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'kvad'):
@@ -290,7 +291,7 @@ class DetaljiProstor(tk.Tk):
                 selektovani = self.treePutnicka.selection()[0]
                 oznaka = self.treePutnicka.item(selektovani)['values'][0]
                 if (tipVozila(self.prostor, oznaka) == 'automobil'):
-                    DetaljiAutomobili(self, oznaka)
+                    view.detaljiAutomobili.DetaljiAutomobili(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'dzip'):
                     DetaljiDzipovi(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'kvad'):
@@ -302,7 +303,7 @@ class DetaljiProstor(tk.Tk):
                 selektovani = self.treeTerenska.selection()[0]
                 oznaka = self.treeTerenska.item(selektovani)['values'][0]
                 if (tipVozila(self.prostor, oznaka) == 'automobil'):
-                    DetaljiAutomobili(self, oznaka)
+                    view.detaljiAutomobili.DetaljiAutomobili(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'dzip'):
                     DetaljiDzipovi(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'kvad'):
@@ -314,7 +315,7 @@ class DetaljiProstor(tk.Tk):
                 selektovani = self.treeNajbrza.selection()[0]
                 oznaka = self.treeNajbrza.item(selektovani)['values'][0]
                 if (tipVozila(self.prostor, oznaka) == 'automobil'):
-                    DetaljiAutomobili(self, oznaka)
+                    view.detaljiAutomobili.DetaljiAutomobili(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'dzip'):
                     DetaljiDzipovi(self, oznaka)
                 elif(tipVozila(self.prostor, oznaka) == 'kvad'):

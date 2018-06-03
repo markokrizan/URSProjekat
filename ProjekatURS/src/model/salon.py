@@ -12,6 +12,12 @@ class IzlozbeniProstor(Identifikacija):
     def __init__(self,oznaka,opis,lokacija):
         super().__init__(oznaka=oznaka,opis=opis)
         self.lokacija=lokacija
+        
+    @staticmethod   
+    def empty():
+        prostor = IzlozbeniProstor('', '', '')
+        return prostor
+    
     def __str__(self):
         return "{} {} {}".format(self.oznaka,self.opis,self.lokacija)
     
@@ -47,6 +53,12 @@ class Automobil(PutnickoVozilo):
         super().__init__(oznaka,opis,duzina,sirina,visina,maksimalna_brzina, godina_proizvodnje, izlozbeni_prostor, broj_vrata)
         self.broj_sedista = broj_sedista
         self.tip_menjaca = tip_menjaca
+        
+    @staticmethod   
+    def empty():
+        automobil = Automobil('', '', 1, 1, 1, 1, 1, None, 1, 1, None)
+        return automobil
+    
     def __str__(self):
         return super(Automobil, self).__str__() + " " + str(self.broj_sedista) + " " + str(self.tip_menjaca)
     
@@ -55,6 +67,12 @@ class Dzip(PutnickoVozilo, TerenskoVozilo):
         super().__init__(oznaka = oznaka, opis = opis, duzina = duzina, sirina = sirina, visina = visina, maksimalna_brzina = maksimalna_brzina, godina_proizvodnje = godina_proizvodnje, izlozbeni_prostor = izlozbeni_prostor,  broj_vrata = broj_vrata, pogon_na_sva_cetiri_tocka = pogon_na_sva_cetiri_tocka)
         self.konjskih_snaga = konjskih_snaga
         self.spustajuca_zadnja_klupa = spustajuca_zadnja_klupa
+        
+    @staticmethod   
+    def empty():
+        dzip = Dzip('', '', 1, 1, 1, 1, 1, None, 1, False, 1, False)
+        return dzip
+    
     def __str__(self):
         #??? multiple inheritance
         return super(Dzip, self).__str__() + " " + str(self.konjskih_snaga) + " " + str(self.spustajuca_zadnja_klupa)
@@ -63,6 +81,11 @@ class Kvad(TerenskoVozilo):
     def __init__(self,oznaka,opis,duzina,sirina,visina,maksimalna_brzina, godina_proizvodnje, izlozbeni_prostor, pogon_na_sva_cetiri_tocka, prostor_za_stvari):
         super().__init__(oznaka,opis,duzina,sirina,visina,maksimalna_brzina, godina_proizvodnje, izlozbeni_prostor, pogon_na_sva_cetiri_tocka)
         self.prostor_za_stvari = prostor_za_stvari
+        
+    @staticmethod   
+    def empty():
+        kvad = Kvad('', '', 1, 1, 1, 1, 1, None, False, False)
+        return kvad
     def __str__(self):
         return super(Kvad, self).__str__() + " " + str(self.prostor_za_stvari)
         

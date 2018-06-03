@@ -16,6 +16,13 @@ def dzipIzOznake(oznaka):
         if i.oznaka == oznaka:
             return i
 
+def generisiOznaku():
+    brojac = 1
+    for i in Projekat().dzipovi:
+        brojac += 1
+    oznaka = 'dz' + str(brojac)
+    return oznaka
+
 def IzmeniDzip(dzip):
     for i in Projekat().dzipovi:
         if i.oznaka == dzip.oznaka:
@@ -30,7 +37,15 @@ def IzmeniDzip(dzip):
             i.pogon_na_sva_cetiri_tocka = dzip.pogon_na_sva_cetiri_tocka
             i.konjskih_snaga = dzip.konjskih_snaga 
             i.spustajuca_zadnja_klupa = dzip.spustajuca_zadnja_klupa
-    Pickle('dzipovi.bin', Projekat().dzipovi) 
+    Pickle('dzipovi.bin', Projekat().dzipovi)
+    
+def ObrisiDzip(oznaka):
+    dzip_za_brisanje = None
+    for i in Projekat().dzipovi:
+        if i.oznaka == oznaka:
+            dzip_za_brisanje = i
+    Projekat().dzipovi.remove(dzip_za_brisanje)
+    Pickle('dzipovi.bin', Projekat().dzipovi)
     
 def nadjiDzipove(kriterijum, pogon, zadnja_klupa):
     trazeniDzipovi = []

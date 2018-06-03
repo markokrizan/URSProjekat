@@ -15,6 +15,13 @@ def kvadIzOznake(oznaka):
     for i in Projekat().kvadovi:
         if i.oznaka == oznaka:
             return i
+        
+def generisiOznaku():
+    brojac = 1
+    for i in Projekat().kvadovi:
+        brojac += 1
+    oznaka = 'kv' + str(brojac)
+    return oznaka
 
 def IzmeniKvad(kvad):
     for i in Projekat().kvadovi:
@@ -28,6 +35,14 @@ def IzmeniKvad(kvad):
             i.izlozbeni_prostor = kvad.izlozbeni_prostor
             i.pogon_na_sva_cetiri_tocka = kvad.pogon_na_sva_cetiri_tocka
             i.prostor_za_stvari = kvad.prostor_za_stvari
+    Pickle('kvadovi.bin', Projekat().kvadovi)
+    
+def ObrisiKvad(oznaka):
+    kvad_za_brisanje = None
+    for i in Projekat().kvadovi:
+        if i.oznaka == oznaka:
+            kvad_za_brisanje = i
+    Projekat().kvadovi.remove(kvad_za_brisanje)
     Pickle('kvadovi.bin', Projekat().kvadovi) 
     
     
