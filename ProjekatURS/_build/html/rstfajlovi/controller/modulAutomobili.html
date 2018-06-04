@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modul automobili &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-controller.automobili">
+<span id="modul-automobili"></span><h1>Modul automobili<a class="headerlink" href="#module-controller.automobili" title="Permalink to this headline">¶</a></h1>
+<p>Modul koji zadrzi metode kontrolera za entitet automobil.</p>
+<p>&#64;author: Aleksandar Rancic</p>
+<dl class="function">
+<dt id="controller.automobili.DodajAutomobil">
+<code class="descclassname">controller.automobili.</code><code class="descname">DodajAutomobil</code><span class="sig-paren">(</span><em>automobil</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#DodajAutomobil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.DodajAutomobil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase automobil, smesta ga u kolekciju i perzistira.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>automobil</strong> – objekat klase automobil</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.IzmeniAutomobil">
+<code class="descclassname">controller.automobili.</code><code class="descname">IzmeniAutomobil</code><span class="sig-paren">(</span><em>automobil</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#IzmeniAutomobil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.IzmeniAutomobil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase automobil i koristi njegove vrednosti da izmeni vec postojeci objekat
+u kolekciji.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>automobil</strong> – objekat klase automobil</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.ObrisiAutomobil">
+<code class="descclassname">controller.automobili.</code><code class="descname">ObrisiAutomobil</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#ObrisiAutomobil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.ObrisiAutomobil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost atributa oznake i na osnovu nje u kolekciji
+pronalazi konkretan objekat klase automobil uklanja ga i ponovo perzistira kolekciju.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost atributa oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.automobilIzOznake">
+<code class="descclassname">controller.automobili.</code><code class="descname">automobilIzOznake</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#automobilIzOznake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.automobilIzOznake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost atributa oznake i na osnovu nje u kolekciji
+pronalazi konkretan objekat klase automobil i vraca ga.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost atributa oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.generisiOznaku">
+<code class="descclassname">controller.automobili.</code><code class="descname">generisiOznaku</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#generisiOznaku"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.generisiOznaku" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja generise string koji ce se koristit kao atribut oznake objekta klase automobil.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.nadjiAutomobile">
+<code class="descclassname">controller.automobili.</code><code class="descname">nadjiAutomobile</code><span class="sig-paren">(</span><em>kriterijum</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#nadjiAutomobile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.nadjiAutomobile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja na osnovu proslednjenog kriterijuma pronalazi objekte iz kolekcije automobila i vraca ih
+da budu korisceni kao rezultat pretrage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kriterijum</strong> – string vrednost kriterijuma po kojem ce se vrsiti pretraga</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.prostor_automobila">
+<code class="descclassname">controller.automobili.</code><code class="descname">prostor_automobila</code><span class="sig-paren">(</span><em>automobil</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#prostor_automobila"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.prostor_automobila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase automobil i koristi njegove vrednosti da izmeni vec postojeci objekat
+u kolekciji.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>automobil</strong> – objekat klase automobil</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.automobili.sortirajAutomobile">
+<code class="descclassname">controller.automobili.</code><code class="descname">sortirajAutomobile</code><span class="sig-paren">(</span><em>kriterijum</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/automobili.html#sortirajAutomobile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.automobili.sortirajAutomobile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja na osnovu proslednjenog kriterijuma sortira kompletnu kolekciju automobila po 
+rastucem poretku u odnosu na vrednost atributa koji je u vezi za kriterijumom.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kriterijum</strong> – string vrednost kriterijuma po kojem ce se vrsiti pretraga</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/rstfajlovi/controller/modulAutomobili.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/rstfajlovi/controller/modulAutomobili.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

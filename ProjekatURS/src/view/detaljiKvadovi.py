@@ -1,7 +1,7 @@
 '''
-Created on Jun 1, 2018
+Modul koji sadrzi klasu koja opisuje view koji prikazuje informacije o objektu klase Kvad.
 
-@author: Freeman
+@author: Aleksandar Rancic
 '''
 
 from tkinter import *
@@ -18,7 +18,18 @@ import view.detaljiProstori
 
 
 class DetaljiKvadovi(tk.Tk):
+    '''
+    Klasa DetaljiKvadovi koja prikazuje detalje o proslednjenom objektu klase Kvad.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self, glavni, oznakaKvada):
+        '''
+        Constructor
+        
+        :param glavni: referenca na root view koji ga poziva
+        :param oznakaKvada: string vrednost oznake prosledjenog objekta kvada
+        
+        '''
         
         
         tk.Tk.__init__(self)
@@ -73,15 +84,25 @@ class DetaljiKvadovi(tk.Tk):
             
             
     def quit(self):
+        '''
+        Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.
+        '''
         #print("prozor zatvoren")
         self.glavni.deiconify()
         self.destroy()
         
     def prostor(self):
+        '''
+        Metoda koja poziva view koji prikazuje detalje o povezanom objektu izlozbenog prostora.
+        '''
         prostor = self.kvad.izlozbeni_prostor
         view.detaljiProstori.ProstorInfo(self, prostor.oznaka)
         
     def Napuni(self):
+        '''
+        Metoda koja puni graficku komponentu vrednostima prosledjenog objekta kvada i time prikazuje detalje o
+        njegovim vrednostima.
+        '''
         
         index = 1
         self.treeDetalji.insert("", 'end' ,text = index, values = ("Oznaka", self.kvad.oznaka))

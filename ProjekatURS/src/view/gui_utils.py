@@ -1,10 +1,17 @@
 '''
 Created on May 31, 2018
 
-@author: freeman
+Modul koji sadrzi helper metode za view komponente
+
+@author: Marko Krizan
 '''
 
 def Centriraj(prozor):
+    '''
+    Metoda koja prima referencu na view i zatim ga centrira na sredinu ekrana.
+    
+    :param prozor: referenca na view
+    '''
     prozor.withdraw()
     prozor.update_idletasks()
     x = (prozor.winfo_screenwidth() - prozor.winfo_reqwidth()) / 2

@@ -1,22 +1,37 @@
 '''
-Created on May 13, 2018
 
-@author: freeman
+Modul koji zadrzi metode kontrolera za entitet dzip.
+
+@author: Marko Krizan
 '''
 
 from model.singleton import Projekat
 from util.pickleUnpickle import Pickle, UnPickle
 
 def DodajDzip(dzip):
+    '''
+    Metoda koja prima objekat klase dzip, smesta ga u kolekciju i perzistira.
+    
+    :param dzip: objekat klase Dzip
+    '''
     Projekat().dzipovi.append(dzip)
     Pickle('dzipovi.bin', Projekat().dzipovi)
     
 def dzipIzOznake(oznaka):
+    '''
+    Metoda koja prima string vrednost oznake i na osnovu nje vraca konkretan objekat klase Dzip.
+    
+    :param oznaka: string vrednost oznake
+    '''
     for i in Projekat().dzipovi:
         if i.oznaka == oznaka:
             return i
 
 def generisiOznaku():
+    '''
+    Metoda koja generise vrednost za atribut oznake objekta.
+    
+    '''
     brojac = 1
     for i in Projekat().dzipovi:
         brojac += 1
@@ -24,6 +39,11 @@ def generisiOznaku():
     return oznaka
 
 def IzmeniDzip(dzip):
+    '''
+    Metoda koja prima objekat klase dzip i koristi njegove vrednosti da izmeni postojeci objekat u kolekciji.
+    
+    :param dzip: objekat klase Dzip
+    '''
     for i in Projekat().dzipovi:
         if i.oznaka == dzip.oznaka:
             i.opis = dzip.opis
@@ -40,6 +60,12 @@ def IzmeniDzip(dzip):
     Pickle('dzipovi.bin', Projekat().dzipovi)
     
 def ObrisiDzip(oznaka):
+    '''
+    Metoda koja prima string vrednost oznake i na osnovu nje vraca pronalazi objekat dzipa u kolekciji i
+    uklanja ga.
+    
+    :param oznaka: string vrednost oznake
+    '''
     dzip_za_brisanje = None
     for i in Projekat().dzipovi:
         if i.oznaka == oznaka:
@@ -48,6 +74,14 @@ def ObrisiDzip(oznaka):
     Pickle('dzipovi.bin', Projekat().dzipovi)
     
 def nadjiDzipove(kriterijum, pogon, zadnja_klupa):
+    '''
+    Metoda koja prima string vrednost oznake, pogona na sva 4 tocka i spustajuce zadnje klupe i na osnovu njih
+    vraca kolekciju konkretnih objekata koje se koriste kao rezultat pretrage.
+    
+    :param kriterijum: string vrednost kriterijuma pretrage
+    :param pogon: bool vrednost postojanja pogona na sva 4 tocka
+    :param zadnja_klupa: bool vrednost postojanja spustajuce zadnje klupe
+    '''
     trazeniDzipovi = []
     q = str(kriterijum.lower())
     #pogon i zadnja klpua?
@@ -60,6 +94,12 @@ def nadjiDzipove(kriterijum, pogon, zadnja_klupa):
     
     
 def sortirajDzipove(kriterijum):
+    '''
+    Metoda koja prima string vrednost kriterijuma za sortiranje i na osnovu nje vraca sortiranu kolekciju
+    objkeata dzipova prema vrednostima atributa za koji su vezani kriterijumi.
+    
+    :param kriterijum: string vrednost kriterijuma za sortiranje
+    '''
     if kriterijum == 'maksimalna_brzina':
         sortiranaKolekcija = sorted(Projekat().dzipovi, key=lambda x: x.maksimalna_brzina)
         return sortiranaKolekcija
@@ -70,4 +110,9 @@ def sortirajDzipove(kriterijum):
         raise ValueError('Ne postoji takav kriterijum')
     
 def prostor_dzipa(dzip):
+    '''
+    Metoda koja prima objekat klase dzip i vraca objekat izlozbenog prostora koji je vezan za njega.
+    
+    :param dzip: objekat klase Dzip
+    '''
     return dzip.izlozbeni_prostor

@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>controller.kvadovi &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for controller.kvadovi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Modul koji zadrzi metode kontrolera za entitet kvad.</span>
+
+<span class="sd">@author: Aleksandar Rancic</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">model.singleton</span> <span class="k">import</span> <span class="n">Projekat</span>
+<span class="kn">from</span> <span class="nn">util.pickleUnpickle</span> <span class="k">import</span> <span class="n">Pickle</span><span class="p">,</span> <span class="n">UnPickle</span>
+
+<div class="viewcode-block" id="DodajKvad"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.DodajKvad">[docs]</a><span class="k">def</span> <span class="nf">DodajKvad</span><span class="p">(</span><span class="n">kvad</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima objekat klase kvad, dodaje ga u kolekciju i perzistira je.</span>
+<span class="sd">    </span>
+<span class="sd">    :param kvad: objekat klase Kvad</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kvad</span><span class="p">)</span>
+    <span class="n">Pickle</span><span class="p">(</span><span class="s1">&#39;kvadovi.bin&#39;</span><span class="p">,</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="kvadIzOznake"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.kvadIzOznake">[docs]</a><span class="k">def</span> <span class="nf">kvadIzOznake</span><span class="p">(</span><span class="n">oznaka</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima string vrednost oznake i na osnovu nje vraca konkretan objekat klase Kvad.</span>
+<span class="sd">    </span>
+<span class="sd">    :param oznaka: string vrednost oznake</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">==</span> <span class="n">oznaka</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span></div>
+        
+<div class="viewcode-block" id="generisiOznaku"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.generisiOznaku">[docs]</a><span class="k">def</span> <span class="nf">generisiOznaku</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja generise vrednost za atribut oznake objekata klase Kvad.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">brojac</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">:</span>
+        <span class="n">brojac</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">oznaka</span> <span class="o">=</span> <span class="s1">&#39;kv&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">brojac</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">oznaka</span></div>
+
+<div class="viewcode-block" id="IzmeniKvad"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.IzmeniKvad">[docs]</a><span class="k">def</span> <span class="nf">IzmeniKvad</span><span class="p">(</span><span class="n">kvad</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima objekat klase kvad i na osnovu njenih vrednosti menja postojeci objekat u kolekciji</span>
+<span class="sd">    i ponovo perzistira kolekciju.</span>
+<span class="sd">    </span>
+<span class="sd">    :param kvad: objekat klase Kvad</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">==</span> <span class="n">kvad</span><span class="o">.</span><span class="n">oznaka</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">opis</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">duzina</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">sirina</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">visina</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">maksimalna_brzina</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">godina_proizvodnje</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">prostor_za_stvari</span> <span class="o">=</span> <span class="n">kvad</span><span class="o">.</span><span class="n">prostor_za_stvari</span>
+    <span class="n">Pickle</span><span class="p">(</span><span class="s1">&#39;kvadovi.bin&#39;</span><span class="p">,</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="ObrisiKvad"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.ObrisiKvad">[docs]</a><span class="k">def</span> <span class="nf">ObrisiKvad</span><span class="p">(</span><span class="n">oznaka</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima string vrednost oznake i na osnovu nje pronalazi konkretan objekat kvada i uklanja ga </span>
+<span class="sd">    iz kolekcije.</span>
+<span class="sd">    </span>
+<span class="sd">    :param oznaka: string vrednost oznake</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">kvad_za_brisanje</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">==</span> <span class="n">oznaka</span><span class="p">:</span>
+            <span class="n">kvad_za_brisanje</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">kvad_za_brisanje</span><span class="p">)</span>
+    <span class="n">Pickle</span><span class="p">(</span><span class="s1">&#39;kvadovi.bin&#39;</span><span class="p">,</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">)</span> </div>
+    
+    
+<div class="viewcode-block" id="nadjiKvadove"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.nadjiKvadove">[docs]</a><span class="k">def</span> <span class="nf">nadjiKvadove</span><span class="p">(</span><span class="n">kriterijum</span><span class="p">,</span> <span class="n">pogon</span><span class="p">,</span> <span class="n">prostor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima string vrednost kriterijuma pretrege, vrednost postojanja pogona na sva 4 tocka i prostra za stvari</span>
+<span class="sd">    i na osnovu njih vraca kolekciju konkretnih objekata klase Kvad koji predstavljaju rezultat pretrage.</span>
+<span class="sd">    </span>
+<span class="sd">    :param kriterijum: stirng vrednost kriterijuma pretrage</span>
+<span class="sd">    :param pogon: bool vrednost postojanja pogona na sva 4 tocka</span>
+<span class="sd">    :param prostor: bool vrednost postojanja prostora za stvari</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">trazeniKvadovi</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">kriterijum</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">:</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">q</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">duzina</span><span class="p">)</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">sirina</span><span class="p">)</span> 
+           <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">visina</span><span class="p">)</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">)</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">pogon</span> <span class="o">==</span> <span class="n">i</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="ow">and</span> <span class="n">prostor</span> <span class="o">==</span> <span class="n">i</span><span class="o">.</span><span class="n">prostor_za_stvari</span><span class="p">)):</span>
+            <span class="n">trazeniKvadovi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trazeniKvadovi</span></div>
+    
+<div class="viewcode-block" id="sortirajKvadove"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.sortirajKvadove">[docs]</a><span class="k">def</span> <span class="nf">sortirajKvadove</span><span class="p">(</span><span class="n">kriterijum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima string vrednost kriterijuma za sortiranje i na osnovu njega vraca sortirane kolekcije</span>
+<span class="sd">    objkata kvadova prema vrednostima atributa koji su vezani za kriterijum.</span>
+<span class="sd">    </span>
+<span class="sd">    :param kriterijum: string vrednost kriterijuma sortiranja</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">kriterijum</span> <span class="o">==</span> <span class="s1">&#39;maksimalna_brzina&#39;</span><span class="p">:</span>
+        <span class="n">sortiranaKolekcija</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sortiranaKolekcija</span>
+    <span class="k">elif</span> <span class="n">kriterijum</span> <span class="o">==</span> <span class="s1">&#39;godina_proizvodnje&#39;</span><span class="p">:</span>
+        <span class="n">sortiranaKolekcija</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">kvadovi</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sortiranaKolekcija</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Ne postoji takav kriterijum&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="prostor_kvada"><a class="viewcode-back" href="../../rstfajlovi/controller/modulKvadovi.html#controller.kvadovi.prostor_kvada">[docs]</a><span class="k">def</span> <span class="nf">prostor_kvada</span><span class="p">(</span><span class="n">kvad</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Metoda koja prima objekat klase Kvad i vraca objekat izlozbenog prostora sa kojim je povezan.</span>
+<span class="sd">    </span>
+<span class="sd">    :param kvad: objekat klase Kvad</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span></div>
+    
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

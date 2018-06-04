@@ -1,0 +1,148 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modul detaljiProstori &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-view.detaljiProstori">
+<span id="modul-detaljiprostori"></span><h1>Modul detaljiProstori<a class="headerlink" href="#module-view.detaljiProstori" title="Permalink to this headline">¶</a></h1>
+<p>Modul koji sadrzi view klase koje cine view detalja o vozilima jednog izlozbenog prostora, kao i klasu koja prikazuje
+detalje u samom prostoru.</p>
+<p>&#64;author: Aleksandar Rancic</p>
+<dl class="class">
+<dt id="view.detaljiProstori.DetaljiProstor">
+<em class="property">class </em><code class="descclassname">view.detaljiProstori.</code><code class="descname">DetaljiProstor</code><span class="sig-paren">(</span><em>glavni</em>, <em>oznakaProstora</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor" title="Permalink to this definition">¶</a></dt>
+<dd><p>View klasa koja prikazuje detalje o vozilima prosledjenog izlozbenog prostora.
+Nasledjuje klasu TkInter</p>
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.Detalji">
+<code class="descname">Detalji</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.Detalji"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.Detalji" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja se okida na klik bilo kojeg od dugmadi detalja za svaku vrstu vozila i prikazuje view koji
+prikazuje detalje o selektovanom objektu vozila prostora.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.NapuniNajbrza">
+<code class="descname">NapuniNajbrza</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.NapuniNajbrza"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.NapuniNajbrza" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja puni informacijama graficku komponentu za prikaz najbrzih vozila prostora, tj onih sa najvecom vrednosti
+atributa maksimalna_brzina.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.NapuniPutnicka">
+<code class="descname">NapuniPutnicka</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.NapuniPutnicka"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.NapuniPutnicka" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja puni informacijama graficku komponentu za prikaz putnickih vozila prostora.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.NapuniTerenska">
+<code class="descname">NapuniTerenska</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.NapuniTerenska"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.NapuniTerenska" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja puni informacijama graficku komponentu za prikaz terenskih vozila prostora.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.NapuniVozila">
+<code class="descname">NapuniVozila</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.NapuniVozila"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.NapuniVozila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja puni informacijama graficku komponentu za prikaz vozila prostora.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.detaljiProstori.DetaljiProstor.quit">
+<code class="descname">quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#DetaljiProstor.quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.DetaljiProstor.quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="view.detaljiProstori.ProstorInfo">
+<em class="property">class </em><code class="descclassname">view.detaljiProstori.</code><code class="descname">ProstorInfo</code><span class="sig-paren">(</span><em>glavni</em>, <em>oznakaProstora</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#ProstorInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.ProstorInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>View klasa koja prikazuje osnovne informacije o izlozbenom prostoru.
+Nasledjuje klasu TkInter.</p>
+<dl class="method">
+<dt id="view.detaljiProstori.ProstorInfo.quit">
+<code class="descname">quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/detaljiProstori.html#ProstorInfo.quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.detaljiProstori.ProstorInfo.quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/rstfajlovi/view/modulDetaljiProstori.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/rstfajlovi/view/modulDetaljiProstori.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

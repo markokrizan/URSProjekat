@@ -1,7 +1,8 @@
 '''
-Created on Jun 1, 2018
+Modul koji sadrzi view klase koje cine view detalja o vozilima jednog izlozbenog prostora, kao i klasu koja prikazuje
+detalje u samom prostoru.
 
-@author: Freeman
+@author: Aleksandar Rancic
 '''
 
 from tkinter import *
@@ -21,8 +22,19 @@ from view.detaljiKvadovi import DetaljiKvadovi
 import view.detaljiAutomobili
 
 class DetaljiProstor(tk.Tk):
+    '''
+    View klasa koja prikazuje detalje o vozilima prosledjenog izlozbenog prostora.
+    Nasledjuje klasu TkInter
+    
+    '''
     def __init__(self, glavni, oznakaProstora):
+        '''
+        Constructor
         
+        :param glavni: referenca na root view koji ga je pozvao
+        :param oznakaProstora: string vrednost oznake prosledjenog prostora
+        
+        '''
         
         self.prostor = prostorIzOznake(oznakaProstora)
         self.glavni = glavni
@@ -246,32 +258,52 @@ class DetaljiProstor(tk.Tk):
             
             
     def quit(self):
+        '''
+        Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.
+        '''
         #print("prozor zatvoren")
         self.glavni.deiconify()
         self.destroy()  
         
     def NapuniVozila(self):
+        '''
+        Metoda koja puni informacijama graficku komponentu za prikaz vozila prostora.
+        '''
         vozila = vozila_prostora(self.prostor)
         for index, i in enumerate(vozila):
             self.treeVozila.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
       
     def NapuniPutnicka(self):
+        '''
+        Metoda koja puni informacijama graficku komponentu za prikaz putnickih vozila prostora.
+        '''
         putnicka = putnicka_vozila_prostora(self.prostor)
         for index, i in enumerate(putnicka):
             self.treePutnicka.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     def NapuniTerenska(self):
+        '''
+        Metoda koja puni informacijama graficku komponentu za prikaz terenskih vozila prostora.
+        '''
         terenska = terenska_vozila_prostora(self.prostor)
         for index, i in enumerate(terenska):
             self.treeTerenska.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     def NapuniNajbrza(self):
+        '''
+        Metoda koja puni informacijama graficku komponentu za prikaz najbrzih vozila prostora, tj onih sa najvecom vrednosti
+        atributa maksimalna_brzina.
+        '''
         najbrza = najbrza_vozila(self.prostor)
         if najbrza != None:
             for index, i in enumerate(najbrza):
                 self.treeNajbrza.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
             
     def Detalji(self):
+        '''
+        Metoda koja se okida na klik bilo kojeg od dugmadi detalja za svaku vrstu vozila i prikazuje view koji
+        prikazuje detalje o selektovanom objektu vozila prostora.
+        '''
         trenutniTab = self.nb.index("current")
         if (trenutniTab == 0):
             try:
@@ -325,9 +357,18 @@ class DetaljiProstor(tk.Tk):
  
                 
 class ProstorInfo(tk.Tk):
+    '''
+    View klasa koja prikazuje osnovne informacije o izlozbenom prostoru.
+    Nasledjuje klasu TkInter.
+    '''
     def __init__(self, glavni, oznakaProstora):
+        '''
+        Constructor
         
+        :param glavni: referenca na root view koji ga poziva
+        :param oznakaProstora: string vrednost atributa oznake prosledjenog izlozbenog prostora
         
+        '''
         self.prostor = prostorIzOznake(oznakaProstora)
         self.glavni = glavni
         
@@ -363,6 +404,9 @@ class ProstorInfo(tk.Tk):
         self.protocol( "WM_DELETE_WINDOW", self.quit )
         
     def quit(self):
+        '''
+        Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.
+        '''
         #print("prozor zatvoren")
         self.glavni.deiconify()
         self.destroy()

@@ -1,21 +1,37 @@
 '''
-Created on May 13, 2018
 
-@author: freeman
+Modul koji zadrzi metode kontrolera za entitet automobil.
+
+@author: Aleksandar Rancic
 '''
 from model.singleton import Projekat
 from util.pickleUnpickle import Pickle, UnPickle
 
 def DodajAutomobil(automobil):
+    '''
+    Metoda koja prima objekat klase automobil, smesta ga u kolekciju i perzistira.
+    
+    :param automobil: objekat klase automobil
+    '''
     Projekat().automobili.append(automobil)
     Pickle('automobili.bin', Projekat().automobili)
     
 def automobilIzOznake(oznaka):
+    '''
+    Metoda koja prima string vrednost atributa oznake i na osnovu nje u kolekciji
+    pronalazi konkretan objekat klase automobil i vraca ga.
+    
+    :param oznaka: string vrednost atributa oznake
+    '''
     for i in Projekat().automobili:
         if i.oznaka == oznaka:
             return i
 
 def generisiOznaku():
+    '''
+    Metoda koja generise string koji ce se koristit kao atribut oznake objekta klase automobil.
+    
+    '''
     brojac = 1
     for i in Projekat().automobili:
         brojac += 1
@@ -23,6 +39,12 @@ def generisiOznaku():
     return oznaka
 
 def IzmeniAutomobil(automobil):
+    '''
+    Metoda koja prima objekat klase automobil i koristi njegove vrednosti da izmeni vec postojeci objekat
+    u kolekciji.
+    
+    :param automobil: objekat klase automobil
+    '''
     for i in Projekat().automobili:
         if i.oznaka == automobil.oznaka:
             i.opis = automobil.opis
@@ -38,6 +60,12 @@ def IzmeniAutomobil(automobil):
     Pickle('automobili.bin', Projekat().automobili)
 
 def ObrisiAutomobil(oznaka):
+    '''
+    Metoda koja prima string vrednost atributa oznake i na osnovu nje u kolekciji
+    pronalazi konkretan objekat klase automobil uklanja ga i ponovo perzistira kolekciju.
+    
+    :param oznaka: string vrednost atributa oznake
+    '''
     automobil_za_brisanje = None
     for i in Projekat().automobili:
         if i.oznaka == oznaka:
@@ -46,6 +74,12 @@ def ObrisiAutomobil(oznaka):
     Pickle('automobili.bin', Projekat().automobili)
     
 def nadjiAutomobile(kriterijum):
+    '''
+    Metoda koja na osnovu proslednjenog kriterijuma pronalazi objekte iz kolekcije automobila i vraca ih
+    da budu korisceni kao rezultat pretrage.
+    
+    :param kriterijum: string vrednost kriterijuma po kojem ce se vrsiti pretraga
+    '''
     trazeniAutomobili = []
     q = str(kriterijum.lower())
     if (kriterijum != ''):
@@ -58,6 +92,12 @@ def nadjiAutomobile(kriterijum):
     
     
 def sortirajAutomobile(kriterijum):
+    '''
+    Metoda koja na osnovu proslednjenog kriterijuma sortira kompletnu kolekciju automobila po 
+    rastucem poretku u odnosu na vrednost atributa koji je u vezi za kriterijumom.
+    
+    :param kriterijum: string vrednost kriterijuma po kojem ce se vrsiti pretraga
+    '''
     if kriterijum == 'maksimalna_brzina':
         sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.maksimalna_brzina)
         return sortiranaKolekcija
@@ -69,6 +109,12 @@ def sortirajAutomobile(kriterijum):
     
 
 def prostor_automobila(automobil):
+    '''
+    Metoda koja prima objekat klase automobil i koristi njegove vrednosti da izmeni vec postojeci objekat
+    u kolekciji.
+    
+    :param automobil: objekat klase automobil
+    '''
     return automobil.izlozbeni_prostor
     
 

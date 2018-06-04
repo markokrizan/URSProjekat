@@ -1,0 +1,492 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>view.detaljiProstori &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for view.detaljiProstori</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Modul koji sadrzi view klase koje cine view detalja o vozilima jednog izlozbenog prostora, kao i klasu koja prikazuje</span>
+<span class="sd">detalje u samom prostoru.</span>
+
+<span class="sd">@author: Aleksandar Rancic</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">ttk</span>
+
+<span class="kn">from</span> <span class="nn">controller.prostori</span> <span class="k">import</span> <span class="n">prostorIzOznake</span><span class="p">,</span> <span class="n">vozila_prostora</span><span class="p">,</span>\
+    <span class="n">putnicka_vozila_prostora</span><span class="p">,</span> <span class="n">terenska_vozila_prostora</span><span class="p">,</span> <span class="n">najbrza_vozila</span><span class="p">,</span>\
+    <span class="n">tipVozila</span>
+<span class="kn">from</span> <span class="nn">model.singleton</span> <span class="k">import</span> <span class="n">Projekat</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">view.gui_utils</span> <span class="k">import</span> <span class="n">Centriraj</span>
+<span class="kn">from</span> <span class="nn">controller</span> <span class="k">import</span> <span class="n">prostori</span>
+
+<span class="kn">from</span> <span class="nn">view.detaljiDzipovi</span> <span class="k">import</span> <span class="n">DetaljiDzipovi</span>
+<span class="kn">from</span> <span class="nn">view.detaljiKvadovi</span> <span class="k">import</span> <span class="n">DetaljiKvadovi</span>
+<span class="c1">#from view.detaljiAutomobili import DetaljiAutomobili</span>
+<span class="kn">import</span> <span class="nn">view.detaljiAutomobili</span>
+
+<div class="viewcode-block" id="DetaljiProstor"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor">[docs]</a><span class="k">class</span> <span class="nc">DetaljiProstor</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    View klasa koja prikazuje detalje o vozilima prosledjenog izlozbenog prostora.</span>
+<span class="sd">    Nasledjuje klasu TkInter</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glavni</span><span class="p">,</span> <span class="n">oznakaProstora</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param glavni: referenca na root view koji ga je pozvao</span>
+<span class="sd">        :param oznakaProstora: string vrednost oznake prosledjenog prostora</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="n">oznakaProstora</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="c1">#povuci glavni da ne moze da se petlja:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+               
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+       
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Detalji&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;800x600&#39;</span><span class="p">)</span>
+       
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#self.korisnik = korisnik</span>
+       
+       <span class="c1">#definisi grid prozora, dosta korisno</span>
+       <span class="c1">#50*50</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1">#KOMPONENTE:</span>
+        
+        <span class="c1">#Notebook:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Notebook</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">49</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+       
+       
+        <span class="c1">#PAGE Vozila:</span>
+        <span class="n">pageVozila</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="p">)</span>
+        
+        <span class="c1">#definisi grid za svaku od kartica</span>
+        <span class="n">rowsp1</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">rowsp1</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">pageVozila</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rowsp1</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pageVozila</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rowsp1</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rowsp1</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1"># ------------------------------------------------------------</span>
+        <span class="c1">#Page izlozbeni prostori komponente</span>
+        
+        <span class="c1">#Tree Prostori</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Treeview</span><span class="p">(</span><span class="n">pageVozila</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;modified&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        
+        <span class="n">ButtonBarVozila</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pageVozila</span><span class="p">)</span>
+        
+        <span class="n">detaljiVozilaBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">ButtonBarVozila</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Detalji&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Detalji</span><span class="p">)</span>
+        <span class="n">detaljiVozilaBTN</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+        
+        
+        
+        <span class="n">ButtonBarVozila</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">19</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        <span class="c1">#**********************************************************************************  </span>
+        <span class="c1">#Dodavanje izlozbeni prostori page u notebook  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pageVozila</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Vozila&quot;</span><span class="p">)</span> 
+        
+        
+        <span class="c1">#PAGE Putnicka:</span>
+        <span class="n">pagePutnicka</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="p">)</span>
+        
+        <span class="c1">#definisi grid za svaku od kartica</span>
+        <span class="n">rowsp2</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">rowsp2</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">pagePutnicka</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rowsp2</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pagePutnicka</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rowsp2</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rowsp2</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1"># ------------------------------------------------------------</span>
+        <span class="c1">#Page izlozbeni prostori komponente</span>
+        
+        <span class="c1">#Tree Prostori</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Treeview</span><span class="p">(</span><span class="n">pagePutnicka</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;modified&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        
+        <span class="n">ButtonBarPutnicka</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pagePutnicka</span><span class="p">)</span>
+        
+        <span class="n">detaljiPutnickaBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">ButtonBarPutnicka</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Detalji&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Detalji</span><span class="p">)</span>
+        <span class="n">detaljiPutnickaBTN</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+        
+        
+        
+        <span class="n">ButtonBarPutnicka</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">19</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        <span class="c1">#**********************************************************************************  </span>
+        <span class="c1">#Dodavanje izlozbeni prostori page u notebook  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pagePutnicka</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Putnicka&quot;</span><span class="p">)</span> 
+        
+        
+        
+        <span class="c1">#PAGE Terenska:</span>
+        <span class="n">pageTerenska</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="p">)</span>
+        
+        <span class="c1">#definisi grid za svaku od kartica</span>
+        <span class="n">rowsp3</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">rowsp3</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">pageTerenska</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rowsp3</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pageTerenska</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rowsp3</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rowsp3</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1"># ------------------------------------------------------------</span>
+        <span class="c1">#Page izlozbeni prostori komponente</span>
+        
+        <span class="c1">#Tree Prostori</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Treeview</span><span class="p">(</span><span class="n">pageTerenska</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;modified&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        
+        <span class="n">ButtonBarTerenska</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pageTerenska</span><span class="p">)</span>
+        
+        <span class="n">detaljiTerenskaBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">ButtonBarTerenska</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Detalji&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Detalji</span><span class="p">)</span>
+        <span class="n">detaljiTerenskaBTN</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+        
+        
+        
+        <span class="n">ButtonBarTerenska</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">19</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        <span class="c1">#**********************************************************************************  </span>
+        <span class="c1">#Dodavanje izlozbeni prostori page u notebook  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pageTerenska</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Terenska&quot;</span><span class="p">)</span>
+        
+        
+        
+         <span class="c1">#PAGE Najbrza:</span>
+        <span class="n">pageNajbrza</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="p">)</span>
+        
+        <span class="c1">#definisi grid za svaku od kartica</span>
+        <span class="n">rowsp4</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">rowsp4</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">pageNajbrza</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rowsp4</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pageNajbrza</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rowsp4</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rowsp4</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1"># ------------------------------------------------------------</span>
+        <span class="c1">#Page izlozbeni prostori komponente</span>
+        
+        <span class="c1">#Tree Prostori</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Treeview</span><span class="p">(</span><span class="n">pageNajbrza</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="s2">&quot;modified&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Oznaka&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Opis&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opis&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Izlozbeni prostor&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        
+        <span class="n">ButtonBarNajbrza</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pageNajbrza</span><span class="p">)</span>
+        
+        <span class="n">detaljiNajbrzaBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">ButtonBarNajbrza</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Detalji&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Detalji</span><span class="p">)</span>
+        <span class="n">detaljiNajbrzaBTN</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span> <span class="o">=</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+        
+        
+        
+        <span class="n">ButtonBarNajbrza</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">19</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        <span class="c1">#**********************************************************************************  </span>
+        <span class="c1">#Dodavanje izlozbeni prostori page u notebook  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pageNajbrza</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Najbrza&quot;</span><span class="p">)</span>
+           
+           
+           
+           
+        <span class="bp">self</span><span class="o">.</span><span class="n">NapuniVozila</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NapuniPutnicka</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NapuniTerenska</span><span class="p">()</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">NapuniNajbrza</span><span class="p">()</span>  
+           
+            
+        <span class="c1">#---------------------------------------------    </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span> <span class="s2">&quot;WM_DELETE_WINDOW&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="p">)</span>   
+            
+            
+<div class="viewcode-block" id="DetaljiProstor.quit"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.quit">[docs]</a>    <span class="k">def</span> <span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1">#print(&quot;prozor zatvoren&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">deiconify</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>  </div>
+        
+<div class="viewcode-block" id="DetaljiProstor.NapuniVozila"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.NapuniVozila">[docs]</a>    <span class="k">def</span> <span class="nf">NapuniVozila</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja puni informacijama graficku komponentu za prikaz vozila prostora.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">vozila</span> <span class="o">=</span> <span class="n">vozila_prostora</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vozila</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span> <span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span><span class="p">))</span></div>
+      
+<div class="viewcode-block" id="DetaljiProstor.NapuniPutnicka"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.NapuniPutnicka">[docs]</a>    <span class="k">def</span> <span class="nf">NapuniPutnicka</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja puni informacijama graficku komponentu za prikaz putnickih vozila prostora.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">putnicka</span> <span class="o">=</span> <span class="n">putnicka_vozila_prostora</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">putnicka</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span> <span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="DetaljiProstor.NapuniTerenska"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.NapuniTerenska">[docs]</a>    <span class="k">def</span> <span class="nf">NapuniTerenska</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja puni informacijama graficku komponentu za prikaz terenskih vozila prostora.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">terenska</span> <span class="o">=</span> <span class="n">terenska_vozila_prostora</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terenska</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span> <span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="DetaljiProstor.NapuniNajbrza"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.NapuniNajbrza">[docs]</a>    <span class="k">def</span> <span class="nf">NapuniNajbrza</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja puni informacijama graficku komponentu za prikaz najbrzih vozila prostora, tj onih sa najvecom vrednosti</span>
+<span class="sd">        atributa maksimalna_brzina.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">najbrza</span> <span class="o">=</span> <span class="n">najbrza_vozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">najbrza</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">najbrza</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span> <span class="p">,</span><span class="n">text</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span><span class="p">))</span></div>
+            
+<div class="viewcode-block" id="DetaljiProstor.Detalji"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.DetaljiProstor.Detalji">[docs]</a>    <span class="k">def</span> <span class="nf">Detalji</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja se okida na klik bilo kojeg od dugmadi detalja za svaku vrstu vozila i prikazuje view koji</span>
+<span class="sd">        prikazuje detalje o selektovanom objektu vozila prostora.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">trenutniTab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;current&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">trenutniTab</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">selektovani</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">selection</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">oznaka</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeVozila</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selektovani</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;automobil&#39;</span><span class="p">):</span>
+                    <span class="n">view</span><span class="o">.</span><span class="n">detaljiAutomobili</span><span class="o">.</span><span class="n">DetaljiAutomobili</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dzip&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiDzipovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;kvad&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiKvadovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">)</span>
+                
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Greska&quot;</span><span class="p">,</span> <span class="s2">&quot;Nista nije selektovano&quot;</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">trenutniTab</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">selektovani</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">selection</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">oznaka</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treePutnicka</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selektovani</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;automobil&#39;</span><span class="p">):</span>
+                    <span class="n">view</span><span class="o">.</span><span class="n">detaljiAutomobili</span><span class="o">.</span><span class="n">DetaljiAutomobili</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dzip&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiDzipovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;kvad&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiKvadovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Greska&quot;</span><span class="p">,</span> <span class="s2">&quot;Nista nije selektovano&quot;</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">trenutniTab</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">selektovani</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">selection</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">oznaka</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeTerenska</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selektovani</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;automobil&#39;</span><span class="p">):</span>
+                    <span class="n">view</span><span class="o">.</span><span class="n">detaljiAutomobili</span><span class="o">.</span><span class="n">DetaljiAutomobili</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dzip&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiDzipovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;kvad&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiKvadovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Greska&quot;</span><span class="p">,</span> <span class="s2">&quot;Nista nije selektovano&quot;</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">trenutniTab</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">selektovani</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">selection</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">oznaka</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeNajbrza</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selektovani</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;automobil&#39;</span><span class="p">):</span>
+                    <span class="n">view</span><span class="o">.</span><span class="n">detaljiAutomobili</span><span class="o">.</span><span class="n">DetaljiAutomobili</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dzip&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiDzipovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">tipVozila</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;kvad&#39;</span><span class="p">):</span>
+                    <span class="n">DetaljiKvadovi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Greska&quot;</span><span class="p">,</span> <span class="s2">&quot;Nista nije selektovano&quot;</span><span class="p">)</span></div></div>
+ 
+                
+<div class="viewcode-block" id="ProstorInfo"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.ProstorInfo">[docs]</a><span class="k">class</span> <span class="nc">ProstorInfo</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    View klasa koja prikazuje osnovne informacije o izlozbenom prostoru.</span>
+<span class="sd">    Nasledjuje klasu TkInter.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glavni</span><span class="p">,</span> <span class="n">oznakaProstora</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param glavni: referenca na root view koji ga poziva</span>
+<span class="sd">        :param oznakaProstora: string vrednost atributa oznake prosledjenog izlozbenog prostora</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="n">oznakaProstora</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="c1">#povuci glavni da ne moze da se petlja:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+               
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+       
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Prostor&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;200x150&#39;</span><span class="p">)</span>
+       
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#self.korisnik = korisnik</span>
+       
+       <span class="c1">#definisi grid prozora, dosta korisno</span>
+       <span class="c1">#50*50</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Oznaka: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">oznaka</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l2</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Opis: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l3</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Lokacija: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">lokacija</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span> <span class="s2">&quot;WM_DELETE_WINDOW&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">quit</span> <span class="p">)</span>
+        
+<div class="viewcode-block" id="ProstorInfo.quit"><a class="viewcode-back" href="../../rstfajlovi/view/modulDetaljiProstori.html#view.detaljiProstori.ProstorInfo.quit">[docs]</a>    <span class="k">def</span> <span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja unistava objekat ovog view-a i ponovo iscrtava root view koji ga je pozvao.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1">#print(&quot;prozor zatvoren&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">deiconify</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
+        
+       
+        
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

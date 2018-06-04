@@ -1,0 +1,244 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modul prostori &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-controller.prostori">
+<span id="modul-prostori"></span><h1>Modul prostori<a class="headerlink" href="#module-controller.prostori" title="Permalink to this headline">¶</a></h1>
+<p>Modul koji zadrzi metode kontrolera za entitet izlozbeni prostor.</p>
+<p>&#64;author: Marko Krizan</p>
+<dl class="function">
+<dt id="controller.prostori.DodajProstor">
+<code class="descclassname">controller.prostori.</code><code class="descname">DodajProstor</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#DodajProstor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.DodajProstor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase izlozbeni prostor, dodaje ga u kolekciju i perzistira ga.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.IzmeniProstor">
+<code class="descclassname">controller.prostori.</code><code class="descname">IzmeniProstor</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#IzmeniProstor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.IzmeniProstor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase izlozbeni prostori koristi njegove vrednosti da izmeni postojeci objekat u kolekciji.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.ObrisiProstor">
+<code class="descclassname">controller.prostori.</code><code class="descname">ObrisiProstor</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#ObrisiProstor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.ObrisiProstor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost oznake i na osnovu nje vraca nalazi konkretan objekat u kolekciji, uklanja ga
+i ponovo perzistira kolekciju.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.generisiOznaku">
+<code class="descclassname">controller.prostori.</code><code class="descname">generisiOznaku</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#generisiOznaku"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.generisiOznaku" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja generise vrednost koja ce se koristit za atribut oznake objekta klase IzlozbeniProstor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.nadjiProstore">
+<code class="descclassname">controller.prostori.</code><code class="descname">nadjiProstore</code><span class="sig-paren">(</span><em>kriterijum</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#nadjiProstore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.nadjiProstore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja na osnovu proslednjenog kriterijuma pronalazi objekte iz kolekcije prostora i vraca ih
+da budu korisceni kao rezultat pretrage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kriterijum</strong> – string vrednost kriterijuma po kojem ce se vrsiti pretraga</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.najbrza_vozila">
+<code class="descclassname">controller.prostori.</code><code class="descname">najbrza_vozila</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#najbrza_vozila"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.najbrza_vozila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja za proslednjeni prostor vraca kolekciju vozila tog prostora sa najvecom brzinom,
+tj. najvecom vrednosti atributa maksimalna_brzina.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.prostorIzOznake">
+<code class="descclassname">controller.prostori.</code><code class="descname">prostorIzOznake</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#prostorIzOznake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.prostorIzOznake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost oznake i na osnovu nje vraca konkretan objekat klase IzlozbeniProstor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.putnicka_vozila_prostora">
+<code class="descclassname">controller.prostori.</code><code class="descname">putnicka_vozila_prostora</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#putnicka_vozila_prostora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.putnicka_vozila_prostora" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja za proslednjeni prostor vraca kolekciju vozila koja su putnicka,
+tj. su instance klase PutnickoVozilo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.terenska_vozila_prostora">
+<code class="descclassname">controller.prostori.</code><code class="descname">terenska_vozila_prostora</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#terenska_vozila_prostora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.terenska_vozila_prostora" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja za proslednjeni prostor vraca kolekciju vozila koja su terenska,
+tj. su instance klase TerenskoVozilo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.tipVozila">
+<code class="descclassname">controller.prostori.</code><code class="descname">tipVozila</code><span class="sig-paren">(</span><em>prostor</em>, <em>oznakaVozila</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#tipVozila"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.tipVozila" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja za proslednjeni prostor i oznaku vozila vraca kojeg je tipa objekat klase cija se oznaka prosledila.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prostor</strong> – objekat klase IzlozbeniProstor</li>
+<li><strong>oznakaVozila</strong> – string vrednost atributa oznake objekta klase Automobil</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.prostori.vozila_prostora">
+<code class="descclassname">controller.prostori.</code><code class="descname">vozila_prostora</code><span class="sig-paren">(</span><em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/prostori.html#vozila_prostora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.prostori.vozila_prostora" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja vraca sva vozila prosledjenog objekta klase IzlozbeniProstor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prostor</strong> – objekat klase IzlozbeniProstor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/rstfajlovi/controller/modulProstori.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/rstfajlovi/controller/modulProstori.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

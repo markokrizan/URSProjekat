@@ -1,0 +1,202 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modul kvadovi &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-controller.kvadovi">
+<span id="modul-kvadovi"></span><h1>Modul kvadovi<a class="headerlink" href="#module-controller.kvadovi" title="Permalink to this headline">¶</a></h1>
+<p>Modul koji zadrzi metode kontrolera za entitet kvad.</p>
+<p>&#64;author: Aleksandar Rancic</p>
+<dl class="function">
+<dt id="controller.kvadovi.DodajKvad">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">DodajKvad</code><span class="sig-paren">(</span><em>kvad</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#DodajKvad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.DodajKvad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase kvad, dodaje ga u kolekciju i perzistira je.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kvad</strong> – objekat klase Kvad</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.IzmeniKvad">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">IzmeniKvad</code><span class="sig-paren">(</span><em>kvad</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#IzmeniKvad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.IzmeniKvad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase kvad i na osnovu njenih vrednosti menja postojeci objekat u kolekciji
+i ponovo perzistira kolekciju.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kvad</strong> – objekat klase Kvad</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.ObrisiKvad">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">ObrisiKvad</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#ObrisiKvad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.ObrisiKvad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost oznake i na osnovu nje pronalazi konkretan objekat kvada i uklanja ga 
+iz kolekcije.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.generisiOznaku">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">generisiOznaku</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#generisiOznaku"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.generisiOznaku" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja generise vrednost za atribut oznake objekata klase Kvad.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.kvadIzOznake">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">kvadIzOznake</code><span class="sig-paren">(</span><em>oznaka</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#kvadIzOznake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.kvadIzOznake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost oznake i na osnovu nje vraca konkretan objekat klase Kvad.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oznaka</strong> – string vrednost oznake</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.nadjiKvadove">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">nadjiKvadove</code><span class="sig-paren">(</span><em>kriterijum</em>, <em>pogon</em>, <em>prostor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#nadjiKvadove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.nadjiKvadove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost kriterijuma pretrege, vrednost postojanja pogona na sva 4 tocka i prostra za stvari
+i na osnovu njih vraca kolekciju konkretnih objekata klase Kvad koji predstavljaju rezultat pretrage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>kriterijum</strong> – stirng vrednost kriterijuma pretrage</li>
+<li><strong>pogon</strong> – bool vrednost postojanja pogona na sva 4 tocka</li>
+<li><strong>prostor</strong> – bool vrednost postojanja prostora za stvari</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.prostor_kvada">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">prostor_kvada</code><span class="sig-paren">(</span><em>kvad</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#prostor_kvada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.prostor_kvada" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima objekat klase Kvad i vraca objekat izlozbenog prostora sa kojim je povezan.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kvad</strong> – objekat klase Kvad</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="controller.kvadovi.sortirajKvadove">
+<code class="descclassname">controller.kvadovi.</code><code class="descname">sortirajKvadove</code><span class="sig-paren">(</span><em>kriterijum</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/controller/kvadovi.html#sortirajKvadove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#controller.kvadovi.sortirajKvadove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja prima string vrednost kriterijuma za sortiranje i na osnovu njega vraca sortirane kolekcije
+objkata kvadova prema vrednostima atributa koji su vezani za kriterijum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kriterijum</strong> – string vrednost kriterijuma sortiranja</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/rstfajlovi/controller/modulKvadovi.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/rstfajlovi/controller/modulKvadovi.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

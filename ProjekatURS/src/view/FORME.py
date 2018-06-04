@@ -1,7 +1,7 @@
 '''
-Created on Jun 2, 2018
+Modul koji sadrzi view klase koje opisuju izgled i funkcionalnost formi za insert i update radnje nad entitetima.
 
-@author: Freeman
+@author: Marko Krizan
 '''
 
 from enum import Enum
@@ -23,11 +23,25 @@ from view.gui_utils import Centriraj
 
 
 class Operacija(Enum):
+    '''
+    Klasa Operacija koja nasledjuje klasu Enum i cini enumeraciju mogucih vresnoti moda rada view-a radi recikliranja.
+    '''
     DODAVANJE = 1
     IZMENA = 2
 
 class ProstorCU(tk.Tk):
+    '''
+    Klasa koja opisuje view forme za insert i update nad entitetom izlozbeni prostor.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self, prostor, operacija, glavni):
+        '''
+        Constructor
+        
+        :param prostor: objekat izlozbenog prostora koji se obradjuje (create - prazan, postojeci - update)
+        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update
+        :param glavni: referenca na root view koji ga poziva
+        '''
         tk.Tk.__init__(self)
         
        
@@ -76,6 +90,10 @@ class ProstorCU(tk.Tk):
         
         
     def ProstorCU(self):
+        '''
+        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.
+        '''
         if self.operacija == Operacija.DODAVANJE:
             
             
@@ -108,7 +126,18 @@ class ProstorCU(tk.Tk):
             
             
 class AutomobilCU(tk.Tk):
+    '''
+    Klasa koja opisuje view forme za insert i update nad entitetom automobil.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self, automobil, operacija, glavni):
+        '''
+        Constructor
+        
+        :param automobil: objekat automobila koji se obradjuje (create - prazan, postojeci - update)
+        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update
+        :param glavni: referenca na root view koji ga poziva
+        '''
         tk.Tk.__init__(self)
         
         '''
@@ -231,13 +260,27 @@ class AutomobilCU(tk.Tk):
         
     
     def prostorIzbor(self, izbor):
+        '''
+        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija 
+        
+        :param izbor: string vrednost oznake izlozbenog prostora
+        '''
         self.izabraniProstor = izbor
     
     def menjacIzbor(self, izbor):
+        '''
+        Metoda koja setuje vrednost atributa tipa menjaca na vrednost izabranu iz drop down menija 
+        
+        :param izbor: string vrednost imena enumeracije tipa menjaca
+        '''
         self.izabraniMenjac = izbor
         
         
     def AutomobilCU(self):
+        '''
+        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.
+        '''
         if self.operacija == Operacija.DODAVANJE:
              
             self.automobil.oznaka = a()
@@ -285,7 +328,18 @@ class AutomobilCU(tk.Tk):
             self.withdraw()
             
 class DzipCU(tk.Tk):
+    '''
+    Klasa koja opisuje view forme za insert i update nad entitetom dzip.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self, dzip, operacija, glavni):
+        '''
+        Constructor
+        
+        :param dzip: objekat dzipa koji se obradjuje (create - prazan, postojeci - update)
+        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update
+        :param glavni: referenca na root view koji ga poziva
+        '''
         tk.Tk.__init__(self)
         
         
@@ -349,30 +403,21 @@ class DzipCU(tk.Tk):
         
         self.vrataEntry = Entry(Input)
         
-        self.izborPogona = IntVar()
         
-        #print('Inicijalna vrednost pogona i klupe pri otvoranju forme:')
+        self.izborPogona = IntVar()
+        #da checkbox oslikava vrednost propertija pri izmeni:
         vrednost = 1 if self.dzip.pogon_na_sva_cetiri_tocka == True else 0
         self.izborPogona.set(vrednost)
-        
-        '''
-        print('vrednost: ' + str(vrednost))
-        print('setovano na vrednost: ' + str(self.izborPogona.get()))
-        '''
-        
         self.pogonBox = Checkbutton(Input, variable = self.izborPogona, onvalue = 1, offvalue = 0)
-        #self.pogonBox.configure(state= 'active' if self.dzip.pogon_na_sva_cetiri_tocka == True else 'normal')
         
-        self.konjskihEntry = Entry(Input)
+        #self.izborPogona.trace('w', self.test)
+           
+        self.konjskihEntry = Entry(Input) 
+        
         
         self.izborKlupe = IntVar()
-        
         vrednost1 = 1 if self.dzip.spustajuca_zadnja_klupa == True else 0
         self.izborKlupe.set(vrednost1)
-        '''
-        print('vrednost1: ' + str(vrednost1))
-        print('setovano na vrednost1: ' + str(self.izborKlupe.get()))
-        '''
         self.klupaBox = Checkbutton(Input, variable = self.izborKlupe, onvalue = 1, offvalue = 0)
         
          
@@ -419,12 +464,25 @@ class DzipCU(tk.Tk):
         
         Input.grid(row = 2, column = 0, columnspan = 15, rowspan = 15, sticky = 'NESW' )
         
+    '''
+    def test(self, *args):
+        print(self.izborPogona.get())
+    '''
     
     def prostorIzbor(self, izbor):
+        '''
+        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija 
+        
+        :param izbor: string vrednost oznake izlozbenog prostora
+        '''
         self.izabraniProstor = izbor
     
         
     def DzipCU(self):
+        '''
+        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.
+        '''
         if self.operacija == Operacija.DODAVANJE:
              
             self.dzip.oznaka = dz()
@@ -440,23 +498,8 @@ class DzipCU(tk.Tk):
             self.dzip.konjskih_snaga = int(self.konjskihEntry.get())
             self.dzip.spustajuca_zadnja_klupa = True if self.izborKlupe.get() == 1 else False
             
-            '''
-            print("Vrednost pogona i klupe posle")
-            
-            print("izbor pogona " + str(self.izborPogona.get()))
-            print("izbor pogona " + str(self.izborKlupe.get()))
-            
-            print('Vrednost propertija')
-            print(self.dzip.pogon_na_sva_cetiri_tocka)
-            print(self.dzip.spustajuca_zadnja_klupa)
-            #print(self.automobil)
-            
-            '''
-            
-            '''
-            fruit = 'Apple'
-            isApple = True if fruit == 'Apple' else False
-            '''
+            print(self.izborPogona.get())
+            print(self.izborKlupe.get())
             
             DodajDzip(self.dzip)
             
@@ -504,7 +547,19 @@ class DzipCU(tk.Tk):
             
             
 class KvadCU(tk.Tk):
+    '''
+    Klasa koja opisuje view forme za insert i update nad entitetom kvad.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self, kvad, operacija, glavni):
+        '''
+        Constructor
+        
+        :param kvad: objekat kvada koji se obradjuje (create - prazan, postojeci - update)
+        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update
+        :param glavni: referenca na root view koji ga poziva
+        '''
+        
         tk.Tk.__init__(self)
         
         
@@ -617,10 +672,19 @@ class KvadCU(tk.Tk):
         
     
     def prostorIzbor(self, izbor):
+        '''
+        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija 
+        
+        :param izbor: string vrednost oznake izlozbenog prostora
+        '''
         self.izabraniProstor = izbor
     
         
     def KvadCU(self):
+        '''
+        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.
+        '''
         if self.operacija == Operacija.DODAVANJE:
              
             self.kvad.oznaka = kv()

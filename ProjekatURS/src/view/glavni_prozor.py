@@ -1,7 +1,7 @@
 '''
-Created on May 31, 2018
+Modul koji sadrzi view klasu za opis glavnog prozora aplikacije, iz kojeg se pozivaju svi drugi.
 
-@author: freeman
+@author: Marko Krizan
 '''
 
 #sudo apt-get install python3-tk
@@ -28,8 +28,16 @@ from controller.kvadovi import kvadIzOznake, ObrisiKvad, nadjiKvadove,\
 
 
 class GlavniProzor(tk.Tk):
+    '''
+    View klasa glavnog prozora koja opisuje izlged svih pojedinacnih komponenti i funkcionalnosti za njegovo koriscenje.
+    Nasledjuje klasu TkInter
+    '''
     def __init__(self):
+        '''
+        Constructor
         
+        
+        '''
         
         tk.Tk.__init__(self)
        
@@ -454,6 +462,9 @@ class GlavniProzor(tk.Tk):
     #Funkcije za osvezavanje:
     
     def OsveziProstore(self):
+        '''
+        Metoda koja osvezava graficku komponentu za prikaz entiteta izlozbenih prostora tako sto je prvo ocisti i ponovo ucita iz kolekcije.
+        '''
         #prvo ocisti
         for i in self.treeProstori.get_children():
             self.treeProstori.delete(i)
@@ -462,6 +473,9 @@ class GlavniProzor(tk.Tk):
             self.treeProstori.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.lokacija))
     
     def OsveziAutomobile(self):
+        '''
+        Metoda koja osvezava graficku komponentu za prikaz entiteta automobila tako sto je prvo ocisti i ponovo ucita iz kolekcije.
+        '''
         #prvo ocisti
         for i in self.treeAutomobili.get_children():
             self.treeAutomobili.delete(i)
@@ -470,6 +484,9 @@ class GlavniProzor(tk.Tk):
             self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     def OsveziDzipove(self):
+        '''
+        Metoda koja osvezava graficku komponentu za prikaz entiteta dzipova tako sto je prvo ocisti i ponovo ucita iz kolekcije.
+        '''
         #prvo ocisti
         for i in self.treeDzipovi.get_children():
             self.treeDzipovi.delete(i)
@@ -478,6 +495,9 @@ class GlavniProzor(tk.Tk):
             self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
             
     def OsveziKvadove(self):
+        '''
+        Metoda koja osvezava graficku komponentu za prikaz entiteta kvadova tako sto je prvo ocisti i ponovo ucita iz kolekcije.
+        '''
         #prvo ocisti
         for i in self.treeKvadovi.get_children():
             self.treeKvadovi.delete(i)
@@ -488,6 +508,9 @@ class GlavniProzor(tk.Tk):
     #Funkcije za detalje:
     
     def detaljiProstori(self):
+        '''
+        Metoda koja poziva view za prikaz detalja o selektovanom entitetu izlozbenog prostora.
+        '''
         try:
             selektovani = self.treeProstori.selection()[0]
             oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
@@ -497,6 +520,9 @@ class GlavniProzor(tk.Tk):
             
         
     def detaljiAutomobili(self):
+        '''
+        Metoda koja poziva view za prikaz detalja o selektovanom entitetu automobila.
+        '''
         try:
             selektovani = self.treeAutomobili.selection()[0]
             oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
@@ -506,6 +532,9 @@ class GlavniProzor(tk.Tk):
         
     
     def detaljiDzipovi(self):
+        '''
+        Metoda koja poziva view za prikaz detalja o selektovanom entitetu dzipa.
+        '''
         try:
             selektovani = self.treeDzipovi.selection()[0]
             oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
@@ -514,6 +543,9 @@ class GlavniProzor(tk.Tk):
             messagebox.showerror("Greska", "Nista nije selektovano")
     
     def detaljiKvadovi(self):
+        '''
+        Metoda koja poziva view za prikaz detalja o selektovanom entitetu kvada.
+        '''
         try:
             selektovani = self.treeKvadovi.selection()[0]
             oznakaKvada = self.treeKvadovi.item(selektovani)['values'][0]
@@ -526,11 +558,17 @@ class GlavniProzor(tk.Tk):
     #Prostori:
     
     def DodajProstor(self):
+        '''
+        Metoda koja kreira prazan objekat izlozbenog prostora i prosledi ga formi za obradu koja ce izvrsiti insert funkcionalnost.
+        '''
         prostor = IzlozbeniProstor.empty()
         ProstorCU(prostor, Operacija.DODAVANJE, self)
         
     
     def IzmeniProstor(self):
+        '''
+        Metoda koja formi za obradu entiteta izlozbenog prostora prosledi selektovani objekat nad kojim ona vrsi update funkcionalnost.
+        '''
         try:
             selektovani = self.treeProstori.selection()[0]
             oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
@@ -540,6 +578,9 @@ class GlavniProzor(tk.Tk):
             messagebox.showerror("Greska", "Nista nije selektovano")
             
     def ObrisiProstor(self):
+        '''
+        Metoda koja selektovani objekat izlozbenog prostora prosledjuje kontroleru za uklanjanje iz kolekcije i perzistiranje i osvezava view.
+        '''
         try:
             selektovani = self.treeProstori.selection()[0]
             oznakaProstora = self.treeProstori.item(selektovani)['values'][0]
@@ -554,12 +595,18 @@ class GlavniProzor(tk.Tk):
     #Automobili:
     
     def DodajAutomobil(self):
+        '''
+        Metoda koja kreira prazan objekat automobila i prosledi ga formi za obradu koja ce izvrsiti insert funkcionalnost.
+        '''
         automobil = Automobil.empty()
         #print(automobil)
         AutomobilCU(automobil, Operacija.DODAVANJE, self)
         
     
     def IzmeniAutomobil(self):
+        '''
+        Metoda koja formi za obradu entiteta automobila prosledi selektovani objekat nad kojim ona vrsi update funkcionalnost.
+        '''
         try:
             selektovani = self.treeAutomobili.selection()[0]
             oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
@@ -569,6 +616,9 @@ class GlavniProzor(tk.Tk):
             messagebox.showerror("Greska", "Nista nije selektovano")
             
     def ObrisiAutomobil(self):
+        '''
+        Metoda koja selektovani objekat automobila prosledjuje kontroleru za uklanjanje iz kolekcije i perzistiranje i osvezava view.
+        '''
         try:
             selektovani = self.treeAutomobili.selection()[0]
             oznakaAutomobila = self.treeAutomobili.item(selektovani)['values'][0]
@@ -582,12 +632,18 @@ class GlavniProzor(tk.Tk):
             
     #Dzipovi
     def DodajDzip(self):
+        '''
+        Metoda koja kreira prazan objekat dzipa i prosledi ga formi za obradu koja ce izvrsiti insert funkcionalnost.
+        '''
         dzip = Dzip.empty()
         #print(automobil)
         DzipCU(dzip, Operacija.DODAVANJE, self)
         
     
     def IzmeniDzip(self):
+        '''
+        Metoda koja formi za obradu entiteta dzipa prosledi selektovani objekat nad kojim ona vrsi update funkcionalnost.
+        '''
         try:
             selektovani = self.treeDzipovi.selection()[0]
             oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
@@ -597,6 +653,9 @@ class GlavniProzor(tk.Tk):
             messagebox.showerror("Greska", "Nista nije selektovano")
             
     def ObrisiDzip(self):
+        '''
+        Metoda koja selektovani objekat dzipa prosledjuje kontroleru za uklanjanje iz kolekcije i perzistiranje i osvezava view.
+        '''
         try:
             selektovani = self.treeDzipovi.selection()[0]
             oznakaDzipa = self.treeDzipovi.item(selektovani)['values'][0]
@@ -611,11 +670,17 @@ class GlavniProzor(tk.Tk):
     #Kvadovi:
     
     def DodajKvad(self):
+        '''
+        Metoda koja kreira prazan objekat kvada i prosledi ga formi za obradu koja ce izvrsiti insert funkcionalnost.
+        '''
         kvad = Kvad.empty()
         KvadCU(kvad, Operacija.DODAVANJE, self)
         
     
     def IzmeniKvad(self):
+        '''
+        Metoda koja formi za obradu entiteta kvada prosledi selektovani objekat nad kojim ona vrsi update funkcionalnost.
+        '''
         try:
             selektovani = self.treeKvadovi.selection()[0]
             oznakaKvad = self.treeKvadovi.item(selektovani)['values'][0]
@@ -625,6 +690,9 @@ class GlavniProzor(tk.Tk):
             messagebox.showerror("Greska", "Nista nije selektovano")
             
     def ObrisiKvad(self):
+        '''
+        Metoda koja selektovani objekat kvada prosledjuje kontroleru za uklanjanje iz kolekcije i perzistiranje i osvezava view.
+        '''
         try:
             selektovani = self.treeKvadovi.selection()[0]
             oznakaKvad = self.treeKvadovi.item(selektovani)['values'][0]
@@ -639,6 +707,12 @@ class GlavniProzor(tk.Tk):
     #PRETRAGA:
     
     def NadjiProstor(self, query):
+        '''
+        Metoda koja prosledjuje kriterijum za pretragu kontroleru od kojeg dobija kolekciju objekata koji su rezultat
+        pretrage, sa kojima ponovo puni graficku komponentu za prikaz
+        
+        :param query: string vrednost kriterijuma za pretragu
+        '''
         if(query != ''):
             trazeniProstori = nadjiProstore(query)
             for i in self.treeProstori.get_children():
@@ -650,6 +724,12 @@ class GlavniProzor(tk.Tk):
             self.OsveziProstore()
             
     def NadjiAutomobil(self, query):
+        '''
+        Metoda koja prosledjuje kriterijum za pretragu kontroleru od kojeg dobija kolekciju objekata koji su rezultat
+        pretrage, sa kojima ponovo puni graficku komponentu za prikaz
+        
+        :param query: string vrednost kriterijuma za pretragu
+        '''
         if(query != ''):
             trazeniAutomobili = nadjiAutomobile(query)
             for i in self.treeAutomobili.get_children():
@@ -661,6 +741,12 @@ class GlavniProzor(tk.Tk):
             self.OsveziAutomobile()
     
     def NadjiDzip(self, query):
+        '''
+        Metoda koja prosledjuje kriterijume za pretragu kontroleru od kojeg dobija kolekciju objekata koji su rezultat
+        pretrage, sa kojima ponovo puni graficku komponentu za prikaz
+        
+        :param query: string vrednost kriterijuma za pretragu
+        '''
         pogon = True if self.saPogonom.get() == 1 else False
         zadnja_klupa = True if self.saKlupom.get() == 1 else False
         trazeniDzipovi = nadjiDzipove(query, pogon, zadnja_klupa)
@@ -672,6 +758,12 @@ class GlavniProzor(tk.Tk):
        
     
     def NadjiKvad(self, query):
+        '''
+        Metoda koja prosledjuje kriterijume za pretragu kontroleru od kojeg dobija kolekciju objekata koji su rezultat
+        pretrage, sa kojima ponovo puni graficku komponentu za prikaz
+        
+        :param query: string vrednost kriterijuma za pretragu
+        '''
         pogon = True if self.saPogonomKvad.get() == 1 else False
         stvari = True if self.saProstoromKvad.get() == 1 else False
         trazeniKvadovi = nadjiKvadove(query, pogon, stvari)
@@ -686,6 +778,10 @@ class GlavniProzor(tk.Tk):
     #SORTIRANJE:
     
     def SortirajAutomobile(self, kriterijum):
+        '''
+        Metoda koja prima parametar kriterujama za sortiranje koji prosledjuje kontroleru od kojeg dobija sortiranu kolekciju
+        koju koristi pri ponovnom osvezavanju graficke komponente za prikaz.
+        '''
         if (kriterijum == 'Maksimalna brzina'):
             sortiranaKolekcija = sortirajAutomobile('maksimalna_brzina')
             for i in self.treeAutomobili.get_children():
@@ -700,6 +796,10 @@ class GlavniProzor(tk.Tk):
                 self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     def SortirajDzipove(self, kriterijum):
+        '''
+        Metoda koja prima parametar kriterujama za sortiranje koji prosledjuje kontroleru od kojeg dobija sortiranu kolekciju
+        koju koristi pri ponovnom osvezavanju graficke komponente za prikaz.
+        '''
         if (kriterijum == 'Maksimalna brzina'):
             sortiranaKolekcija = sortirajDzipove('maksimalna_brzina')
             for i in self.treeDzipovi.get_children():
@@ -714,6 +814,10 @@ class GlavniProzor(tk.Tk):
                 self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     def SortirajKvadove(self, kriterijum):
+        '''
+        Metoda koja prima parametar kriterujama za sortiranje koji prosledjuje kontroleru od kojeg dobija sortiranu kolekciju
+        koju koristi pri ponovnom osvezavanju graficke komponente za prikaz.
+        '''
         if (kriterijum == 'Maksimalna brzina'):
             sortiranaKolekcija = sortirajKvadove('maksimalna_brzina')
             for i in self.treeKvadovi.get_children():

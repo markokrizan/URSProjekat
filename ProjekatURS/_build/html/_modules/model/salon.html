@@ -1,0 +1,326 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>model.salon &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for model.salon</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Modul koji sadrzi klase glavnih entiteta sa kojima se radi.</span>
+
+<span class="sd">@author: Marko Krizan</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">model.osnovni</span> <span class="k">import</span> <span class="n">Identifikacija</span><span class="p">,</span> <span class="n">Dimenzije</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+
+
+<div class="viewcode-block" id="IzlozbeniProstor"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.IzlozbeniProstor">[docs]</a><span class="k">class</span> <span class="nc">IzlozbeniProstor</span><span class="p">(</span><span class="n">Identifikacija</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entiteta izlozbenog prostora.</span>
+<span class="sd">    Nasledjuje klasu Indentifikacija.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#sve ostale se pakuju u **kwargs i dalje prosledjuje, onda nasledjeni konsruktor salje kome dalje treba</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">lokacija</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param lokacija:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span><span class="o">=</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="o">=</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacija</span><span class="o">=</span><span class="n">lokacija</span>
+        
+<div class="viewcode-block" id="IzlozbeniProstor.empty"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.IzlozbeniProstor.empty">[docs]</a>    <span class="nd">@staticmethod</span>   
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">():</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja kreira &quot;prazan&quot; objekat klase sa default vrednostima.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">prostor</span> <span class="o">=</span> <span class="n">IzlozbeniProstor</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prostor</span></div>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">lokacija</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Vozilo"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Vozilo">[docs]</a><span class="k">class</span> <span class="nc">Vozilo</span><span class="p">(</span><span class="n">Identifikacija</span><span class="p">,</span> <span class="n">Dimenzije</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entiteta Vozilo.</span>
+<span class="sd">    Nasledjuje klase Indentifikacija i Dimenzije.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oznaka</span><span class="p">,</span> <span class="n">opis</span><span class="p">,</span> <span class="n">duzina</span><span class="p">,</span> <span class="n">sirina</span><span class="p">,</span> <span class="n">visina</span><span class="p">,</span> <span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">oznaka</span><span class="p">,</span> <span class="n">opis</span> <span class="o">=</span> <span class="n">opis</span><span class="p">,</span> <span class="n">duzina</span> <span class="o">=</span> <span class="n">duzina</span><span class="p">,</span> <span class="n">sirina</span> <span class="o">=</span> <span class="n">sirina</span><span class="p">,</span> <span class="n">visina</span> <span class="o">=</span> <span class="n">visina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="n">maksimalna_brzina</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="n">godina_proizvodnje</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">izlozbeni_prostor</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oznaka</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">duzina</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sirina</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">visina</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PutnickoVozilo"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.PutnickoVozilo">[docs]</a><span class="k">class</span> <span class="nc">PutnickoVozilo</span><span class="p">(</span><span class="n">Vozilo</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entieta Putnicko vozilo.</span>
+<span class="sd">    Nasledjuje klasu Vozilo.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">broj_vrata</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        :param broj_vrata:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="n">broj_vrata</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PutnickoVozilo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">broj_vrata</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TerenskoVozilo"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.TerenskoVozilo">[docs]</a><span class="k">class</span> <span class="nc">TerenskoVozilo</span><span class="p">(</span><span class="n">Vozilo</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entiteta Terensko vozilo.</span>
+<span class="sd">    Nasledjuje klasu Vozilo.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        :param pogon_na_sva_cetiri_tocka:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="n">pogon_na_sva_cetiri_tocka</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">TerenskoVozilo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TipMenjaca"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.TipMenjaca">[docs]</a><span class="k">class</span> <span class="nc">TipMenjaca</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa koja nasledjuje klasu Enumeracija i sadrzi vrednosti za atribut tip menjaca entiteta.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">MANUELNI</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">AUTOMATSKI</span> <span class="o">=</span> <span class="mi">2</span></div>
+ 
+<div class="viewcode-block" id="Automobil"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Automobil">[docs]</a><span class="k">class</span> <span class="nc">Automobil</span><span class="p">(</span><span class="n">PutnickoVozilo</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entiteta Automobil.</span>
+<span class="sd">    Nasledjuje klasu PutnickoVozilo.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">broj_vrata</span><span class="p">,</span> <span class="n">broj_sedista</span><span class="p">,</span> <span class="n">tip_menjaca</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        :param broj_vrata:</span>
+<span class="sd">        :param broj_sedista:</span>
+<span class="sd">        :param tip_menjaca:</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">broj_vrata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">broj_sedista</span> <span class="o">=</span> <span class="n">broj_sedista</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tip_menjaca</span> <span class="o">=</span> <span class="n">tip_menjaca</span>
+        
+<div class="viewcode-block" id="Automobil.empty"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Automobil.empty">[docs]</a>    <span class="nd">@staticmethod</span>   
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">():</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja kreira &quot;prazan&quot; objekat klase sa default vrednostima.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">automobil</span> <span class="o">=</span> <span class="n">Automobil</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">automobil</span></div>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Automobil</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">broj_sedista</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tip_menjaca</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Dzip"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Dzip">[docs]</a><span class="k">class</span> <span class="nc">Dzip</span><span class="p">(</span><span class="n">PutnickoVozilo</span><span class="p">,</span> <span class="n">TerenskoVozilo</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entiteta Dzip.</span>
+<span class="sd">    Nasledjuje klase PutnickoVozilo i TerenskoVozilo</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">broj_vrata</span><span class="p">,</span> <span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">,</span> <span class="n">konjskih_snaga</span><span class="p">,</span> <span class="n">spustajuca_zadnja_klupa</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        :param broj_vrata:</span>
+<span class="sd">        :param pogon_na_sva_cetiri_tocka:</span>
+<span class="sd">        :param konjskih_snaga:</span>
+<span class="sd">        :param spustajuca_zadnja_klupa:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">oznaka</span><span class="p">,</span> <span class="n">opis</span> <span class="o">=</span> <span class="n">opis</span><span class="p">,</span> <span class="n">duzina</span> <span class="o">=</span> <span class="n">duzina</span><span class="p">,</span> <span class="n">sirina</span> <span class="o">=</span> <span class="n">sirina</span><span class="p">,</span> <span class="n">visina</span> <span class="o">=</span> <span class="n">visina</span><span class="p">,</span> <span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span>  <span class="n">broj_vrata</span> <span class="o">=</span> <span class="n">broj_vrata</span><span class="p">,</span> <span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskih_snaga</span> <span class="o">=</span> <span class="n">konjskih_snaga</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">=</span> <span class="n">spustajuca_zadnja_klupa</span>
+        
+<div class="viewcode-block" id="Dzip.empty"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Dzip.empty">[docs]</a>    <span class="nd">@staticmethod</span>   
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">():</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja kreira &quot;prazan&quot; objekat klase sa default vrednostima.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">dzip</span> <span class="o">=</span> <span class="n">Dzip</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dzip</span></div>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dzip</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">konjskih_snaga</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Kvad"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Kvad">[docs]</a><span class="k">class</span> <span class="nc">Kvad</span><span class="p">(</span><span class="n">TerenskoVozilo</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa entieta Kvad.</span>
+<span class="sd">    Nasledjuje TerenskoVozilo.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">,</span> <span class="n">prostor_za_stvari</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param oznaka:</span>
+<span class="sd">        :param opis:</span>
+<span class="sd">        :param duzina:</span>
+<span class="sd">        :param sirina:</span>
+<span class="sd">        :param visina:</span>
+<span class="sd">        :param maksimalna_brzina:</span>
+<span class="sd">        :param godina_proizvodnje:</span>
+<span class="sd">        :param izlozbeni_prostor:</span>
+<span class="sd">        :param pogon_na_sva_cetiri_tocka:</span>
+<span class="sd">        :param prostor_za_stvari:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oznaka</span><span class="p">,</span><span class="n">opis</span><span class="p">,</span><span class="n">duzina</span><span class="p">,</span><span class="n">sirina</span><span class="p">,</span><span class="n">visina</span><span class="p">,</span><span class="n">maksimalna_brzina</span><span class="p">,</span> <span class="n">godina_proizvodnje</span><span class="p">,</span> <span class="n">izlozbeni_prostor</span><span class="p">,</span> <span class="n">pogon_na_sva_cetiri_tocka</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostor_za_stvari</span> <span class="o">=</span> <span class="n">prostor_za_stvari</span>
+        
+<div class="viewcode-block" id="Kvad.empty"><a class="viewcode-back" href="../../rstfajlovi/model/modulSalon.html#model.salon.Kvad.empty">[docs]</a>    <span class="nd">@staticmethod</span>   
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">():</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja kreira &quot;prazan&quot; objekat klase sa default vrednostima.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">kvad</span> <span class="o">=</span> <span class="n">Kvad</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kvad</span></div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redefinicja __str__ metode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Kvad</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor_za_stvari</span><span class="p">)</span></div>
+        
+        
+        
+     
+
+
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

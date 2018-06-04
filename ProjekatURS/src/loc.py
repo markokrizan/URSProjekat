@@ -1,7 +1,7 @@
 '''
-Created on Jun 4, 2018
+Modul koji ispisuje broj linija koda u pojedinacnim modulima i ukupno u src folderu.
 
-@author: Freeman
+@author: Marko Krizan
 '''
 
 import os

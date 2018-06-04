@@ -1,7 +1,7 @@
 '''
-Created on May 31, 2018
+Modul koji sadrzi main blok za pokretanje aplikacije.
 
-@author: freeman
+@author: Marko Krizan
 '''
 
 from view.glavni_prozor import *

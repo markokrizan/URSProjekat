@@ -1,7 +1,7 @@
 '''
-Created on Jun 1, 2018
+Modul koji sadrzi klasu koja opisuje view koji se koristi za prikaz detalja o objektu klase Automobil.
 
-@author: Freeman
+@author: Aleksandar Rancic
 '''
 
 from tkinter import *
@@ -18,7 +18,19 @@ from view.gui_utils import Centriraj
 
 #from view.detaljiProstori import DetaljiProstor
 class DetaljiAutomobili(tk.Tk):
+    '''
+    Klasa view-a koja opisuje detalje o objektu klase Automobil.
+    Naslejduje TkInter klasu.
+    '''
     def __init__(self, glavni, oznakaAutomobila):
+        '''
+        Constructor 
+        
+        :param glavni: prosledjena referenca na root view koji je pozvao ovaj view
+        :param oznakaAutomobila: prosledji objekat klase automobil
+        
+        '''
+        
         
         
         tk.Tk.__init__(self)
@@ -79,38 +91,35 @@ class DetaljiAutomobili(tk.Tk):
             
             
     def quit(self):
+        '''
+        Metoda koja po zatvaranju view-a unistava njegov objekat i ponovo iscrtava root view koji ga je pozvao
+        '''
         #print("prozor zatvoren")
         self.glavni.deiconify()
         self.destroy()
     
     def prostor(self):
+        '''
+        Metoda koja se okida po kliku na dugme ProstorBTN i poziva view koji prikazuje informacije o izlozbenom
+        prostoru automobila.
+        '''
         prostor = self.automobil.izlozbeni_prostor
         #ProstorInfo(self, prostor.oznaka)
         view.detaljiProstori.ProstorInfo(self, prostor.oznaka)
         
     def Napuni(self):
+        '''
+        Metoda koja puni graficku komponentu za prikaz informacija o objektu vrednostima atributa prosledjenog objekta klase Automobil.
+        '''
+        
+        
+        
+        
         #moguc prolaz kroz sve atribute:
-        '''
-        for attr, value in self.automobil.__dict__.items():
-            self.textWidget.insert(INSERT, str(attr) + " : " + str(value) + "\n")
-        '''
+        #for attr, value in self.automobil.__dict__.items():
+        #    self.textWidget.insert(INSERT, str(attr) + " : " + str(value) + "\n")
         
-        '''
-        self.textWidget.insert(INSERT, 'Oznaka: ' + self.automobil.oznaka + "\n")
-        self.textWidget.insert(INSERT, 'Opis: ' + self.automobil.opis + "\n")
-        self.textWidget.insert(INSERT, 'Duzina: ' + str(self.automobil.duzina) + "\n")
-        self.textWidget.insert(INSERT, 'Sirina: ' + str(self.automobil.sirina) + "\n")
-        self.textWidget.insert(INSERT, 'Visina: ' + str(self.automobil.visina) + "\n")
-        self.textWidget.insert(INSERT, 'Maksimalna brzina: ' + str(self.automobil.maksimalna_brzina) + "\n")
-        self.textWidget.insert(INSERT, 'Godina proizvodnje: ' + str(self.automobil.godina_proizvodnje) + "\n")
-        self.textWidget.insert(INSERT, 'Izlozbeni prostor: ' + self.automobil.izlozbeni_prostor.oznaka + "\n")
-        self.textWidget.insert(INSERT, 'Broj vrata: ' + str(self.automobil.broj_vrata) + "\n")
-        self.textWidget.insert(INSERT, 'Broj sedista: ' + str(self.automobil.broj_sedista) + "\n")
-        self.textWidget.insert(INSERT, 'Tip menjaca: ' + str(self.automobil.tip_menjaca.name) + "\n")
         
-        #read only - moguce samo nakon pisanja
-        self.textWidget.config(state=DISABLED)
-        '''
         index = 1
         self.treeDetalji.insert("", 'end' ,text = index, values = ("Oznaka", self.automobil.oznaka))
         index+=1

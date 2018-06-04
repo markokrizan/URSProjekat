@@ -1,7 +1,8 @@
 '''
-Created on May 13, 2018
 
-@author: freeman
+Modul koji zadrzi metode kontrolera za entitet izlozbeni prostor.
+
+@author: Marko Krizan
 '''
 from model.singleton import Projekat
 from model.salon import *
@@ -9,11 +10,19 @@ from util.pickleUnpickle import Pickle, UnPickle
 
 
 def prostorIzOznake(oznaka):
+    '''
+    Metoda koja prima string vrednost oznake i na osnovu nje vraca konkretan objekat klase IzlozbeniProstor
+    
+    :param oznaka: string vrednost oznake
+    '''
     for i in Projekat().prostori:
         if i.oznaka == oznaka:
             return i
         
 def generisiOznaku():
+    '''
+    Metoda koja generise vrednost koja ce se koristit za atribut oznake objekta klase IzlozbeniProstor
+    '''
     brojac = 1
     for i in Projekat().prostori:
         brojac += 1
@@ -22,10 +31,20 @@ def generisiOznaku():
 
 
 def DodajProstor(prostor):
+    '''
+    Metoda koja prima objekat klase izlozbeni prostor, dodaje ga u kolekciju i perzistira ga.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     Projekat().prostori.append(prostor)
     Pickle('prostori.bin', Projekat().prostori)
 
 def IzmeniProstor(prostor):
+    '''
+    Metoda koja prima objekat klase izlozbeni prostori koristi njegove vrednosti da izmeni postojeci objekat u kolekciji.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     for i in Projekat().prostori:
         if i.oznaka == prostor.oznaka:
             i.opis = prostor.opis
@@ -33,6 +52,12 @@ def IzmeniProstor(prostor):
     Pickle('prostori.bin', Projekat().prostori)
 
 def ObrisiProstor(oznaka):
+    '''
+    Metoda koja prima string vrednost oznake i na osnovu nje vraca nalazi konkretan objekat u kolekciji, uklanja ga
+    i ponovo perzistira kolekciju.
+    
+    :param oznaka: string vrednost oznake
+    '''
     prostor_za_brisanje = None
     for i in Projekat().prostori:
         if i.oznaka == oznaka:
@@ -42,6 +67,12 @@ def ObrisiProstor(oznaka):
     
 
 def nadjiProstore(kriterijum):
+    '''
+    Metoda koja na osnovu proslednjenog kriterijuma pronalazi objekte iz kolekcije prostora i vraca ih
+    da budu korisceni kao rezultat pretrage.
+    
+    :param kriterijum: string vrednost kriterijuma po kojem ce se vrsiti pretraga
+    '''
     trazeniProstori = []
     q = kriterijum.lower()
     if (kriterijum != ''):
@@ -51,6 +82,11 @@ def nadjiProstore(kriterijum):
         return trazeniProstori
     
 def vozila_prostora(prostor):
+    '''
+    Metoda koja vraca sva vozila prosledjenog objekta klase IzlozbeniProstor.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     vozila = []
     for i in Projekat().automobili:
         #if i.izlozbeni_prostor.__eq__(prostor):
@@ -66,6 +102,12 @@ def vozila_prostora(prostor):
     
 
 def tipVozila(prostor, oznakaVozila):
+    '''
+    Metoda koja za proslednjeni prostor i oznaku vozila vraca kojeg je tipa objekat klase cija se oznaka prosledila.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    :param oznakaVozila: string vrednost atributa oznake objekta klase Automobil
+    '''
     vozila = vozila_prostora(prostor)
     for i in vozila:
         if i.oznaka == oznakaVozila:
@@ -78,6 +120,12 @@ def tipVozila(prostor, oznakaVozila):
     
 
 def najbrza_vozila(prostor):
+    '''
+    Metoda koja za proslednjeni prostor vraca kolekciju vozila tog prostora sa najvecom brzinom,
+    tj. najvecom vrednosti atributa maksimalna_brzina.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     najbrza_vozila = []
     vozila = vozila_prostora(prostor)
     if len(vozila) != 0:
@@ -91,6 +139,12 @@ def najbrza_vozila(prostor):
 
     
 def putnicka_vozila_prostora(prostor):
+    '''
+    Metoda koja za proslednjeni prostor vraca kolekciju vozila koja su putnicka,
+    tj. su instance klase PutnickoVozilo.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     putnicka = []
     vozila = vozila_prostora(prostor)
     for i in vozila:
@@ -100,6 +154,12 @@ def putnicka_vozila_prostora(prostor):
 
 
 def terenska_vozila_prostora(prostor):
+    '''
+    Metoda koja za proslednjeni prostor vraca kolekciju vozila koja su terenska,
+    tj. su instance klase TerenskoVozilo.
+    
+    :param prostor: objekat klase IzlozbeniProstor
+    '''
     terenska = []
     vozila = vozila_prostora(prostor)
     for i in vozila:

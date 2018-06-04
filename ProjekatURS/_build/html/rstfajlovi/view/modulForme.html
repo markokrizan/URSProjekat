@@ -1,0 +1,207 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modul Forme &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-view.FORME">
+<span id="modul-forme"></span><h1>Modul Forme<a class="headerlink" href="#module-view.FORME" title="Permalink to this headline">¶</a></h1>
+<p>Modul koji sadrzi view klase koje opisuju izgled i funkcionalnost formi za insert i update radnje nad entitetima.</p>
+<p>&#64;author: Marko Krizan</p>
+<dl class="class">
+<dt id="view.FORME.AutomobilCU">
+<em class="property">class </em><code class="descclassname">view.FORME.</code><code class="descname">AutomobilCU</code><span class="sig-paren">(</span><em>automobil</em>, <em>operacija</em>, <em>glavni</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#AutomobilCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.AutomobilCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Klasa koja opisuje view forme za insert i update nad entitetom automobil.
+Nasledjuje klasu TkInter</p>
+<dl class="method">
+<dt id="view.FORME.AutomobilCU.AutomobilCU">
+<code class="descname">AutomobilCU</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#AutomobilCU.AutomobilCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.AutomobilCU.AutomobilCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.FORME.AutomobilCU.menjacIzbor">
+<code class="descname">menjacIzbor</code><span class="sig-paren">(</span><em>izbor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#AutomobilCU.menjacIzbor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.AutomobilCU.menjacIzbor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja setuje vrednost atributa tipa menjaca na vrednost izabranu iz drop down menija</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>izbor</strong> – string vrednost imena enumeracije tipa menjaca</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.FORME.AutomobilCU.prostorIzbor">
+<code class="descname">prostorIzbor</code><span class="sig-paren">(</span><em>izbor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#AutomobilCU.prostorIzbor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.AutomobilCU.prostorIzbor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>izbor</strong> – string vrednost oznake izlozbenog prostora</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="view.FORME.DzipCU">
+<em class="property">class </em><code class="descclassname">view.FORME.</code><code class="descname">DzipCU</code><span class="sig-paren">(</span><em>dzip</em>, <em>operacija</em>, <em>glavni</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#DzipCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.DzipCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Klasa koja opisuje view forme za insert i update nad entitetom dzip.
+Nasledjuje klasu TkInter</p>
+<dl class="method">
+<dt id="view.FORME.DzipCU.DzipCU">
+<code class="descname">DzipCU</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#DzipCU.DzipCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.DzipCU.DzipCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.FORME.DzipCU.prostorIzbor">
+<code class="descname">prostorIzbor</code><span class="sig-paren">(</span><em>izbor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#DzipCU.prostorIzbor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.DzipCU.prostorIzbor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>izbor</strong> – string vrednost oznake izlozbenog prostora</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="view.FORME.KvadCU">
+<em class="property">class </em><code class="descclassname">view.FORME.</code><code class="descname">KvadCU</code><span class="sig-paren">(</span><em>kvad</em>, <em>operacija</em>, <em>glavni</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#KvadCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.KvadCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Klasa koja opisuje view forme za insert i update nad entitetom kvad.
+Nasledjuje klasu TkInter</p>
+<dl class="method">
+<dt id="view.FORME.KvadCU.KvadCU">
+<code class="descname">KvadCU</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#KvadCU.KvadCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.KvadCU.KvadCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="view.FORME.KvadCU.prostorIzbor">
+<code class="descname">prostorIzbor</code><span class="sig-paren">(</span><em>izbor</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#KvadCU.prostorIzbor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.KvadCU.prostorIzbor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>izbor</strong> – string vrednost oznake izlozbenog prostora</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="view.FORME.Operacija">
+<em class="property">class </em><code class="descclassname">view.FORME.</code><code class="descname">Operacija</code><a class="reference internal" href="../../_modules/view/FORME.html#Operacija"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.Operacija" title="Permalink to this definition">¶</a></dt>
+<dd><p>Klasa Operacija koja nasledjuje klasu Enum i cini enumeraciju mogucih vresnoti moda rada view-a radi recikliranja.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="view.FORME.ProstorCU">
+<em class="property">class </em><code class="descclassname">view.FORME.</code><code class="descname">ProstorCU</code><span class="sig-paren">(</span><em>prostor</em>, <em>operacija</em>, <em>glavni</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#ProstorCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.ProstorCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Klasa koja opisuje view forme za insert i update nad entitetom izlozbeni prostor.
+Nasledjuje klasu TkInter</p>
+<dl class="method">
+<dt id="view.FORME.ProstorCU.ProstorCU">
+<code class="descname">ProstorCU</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/view/FORME.html#ProstorCU.ProstorCU"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#view.FORME.ProstorCU.ProstorCU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome
+poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/rstfajlovi/view/modulForme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/rstfajlovi/view/modulForme.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

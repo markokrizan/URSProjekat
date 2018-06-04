@@ -1,0 +1,806 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>view.FORME &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for view.FORME</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Modul koji sadrzi view klase koje opisuju izgled i funkcionalnost formi za insert i update radnje nad entitetima.</span>
+
+<span class="sd">@author: Marko Krizan</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">messagebox</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">ttk</span>
+
+<span class="kn">from</span> <span class="nn">controller.prostori</span> <span class="k">import</span> <span class="n">prostorIzOznake</span><span class="p">,</span> <span class="n">DodajProstor</span><span class="p">,</span> \
+    <span class="n">IzmeniProstor</span>
+<span class="kn">from</span> <span class="nn">controller.prostori</span> <span class="k">import</span> <span class="n">generisiOznaku</span> <span class="k">as</span> <span class="n">p</span>
+<span class="kn">from</span> <span class="nn">controller.automobili</span> <span class="k">import</span> <span class="n">generisiOznaku</span> <span class="k">as</span> <span class="n">a</span><span class="p">,</span> <span class="n">DodajAutomobil</span><span class="p">,</span>\
+    <span class="n">IzmeniAutomobil</span>
+<span class="kn">from</span> <span class="nn">controller.dzipovi</span> <span class="k">import</span> <span class="n">generisiOznaku</span> <span class="k">as</span> <span class="n">dz</span><span class="p">,</span> <span class="n">DodajDzip</span><span class="p">,</span> <span class="n">IzmeniDzip</span>
+<span class="kn">from</span> <span class="nn">controller.kvadovi</span> <span class="k">import</span> <span class="n">generisiOznaku</span> <span class="k">as</span> <span class="n">kv</span><span class="p">,</span> <span class="n">DodajKvad</span><span class="p">,</span> <span class="n">IzmeniKvad</span>
+<span class="kn">from</span> <span class="nn">model.salon</span> <span class="k">import</span> <span class="n">TipMenjaca</span>
+<span class="kn">from</span> <span class="nn">model.singleton</span> <span class="k">import</span> <span class="n">Projekat</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">view.gui_utils</span> <span class="k">import</span> <span class="n">Centriraj</span>
+
+
+<div class="viewcode-block" id="Operacija"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.Operacija">[docs]</a><span class="k">class</span> <span class="nc">Operacija</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa Operacija koja nasledjuje klasu Enum i cini enumeraciju mogucih vresnoti moda rada view-a radi recikliranja.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">DODAVANJE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">IZMENA</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="ProstorCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.ProstorCU">[docs]</a><span class="k">class</span> <span class="nc">ProstorCU</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa koja opisuje view forme za insert i update nad entitetom izlozbeni prostor.</span>
+<span class="sd">    Nasledjuje klasu TkInter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prostor</span><span class="p">,</span> <span class="n">operacija</span><span class="p">,</span> <span class="n">glavni</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param prostor: objekat izlozbenog prostora koji se obradjuje (create - prazan, postojeci - update)</span>
+<span class="sd">        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update</span>
+<span class="sd">        :param glavni: referenca na root view koji ga poziva</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+       
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Prostor UD&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;200x150&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span> <span class="o">=</span> <span class="n">prostor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">=</span> <span class="n">operacija</span>
+        
+        <span class="c1">#referenca na glavni da se moze iskoristiti Osvezi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="n">Input</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#oznaka ce se kreirati samo i inkrementirati na odredjen nacin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Opis: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Lokacija: &quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        <span class="c1">#napuni vrednostima, ako se prosledi prazan student bice prazno</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">prostor</span><span class="o">.</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">prostor</span><span class="o">.</span><span class="n">lokacija</span><span class="p">)</span>
+       
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Potvrdi&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ProstorCU</span><span class="p">)</span>
+      
+       
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span><span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">columnspan</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">Input</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+        
+<div class="viewcode-block" id="ProstorCU.ProstorCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.ProstorCU.ProstorCU">[docs]</a>    <span class="k">def</span> <span class="nf">ProstorCU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome</span>
+<span class="sd">        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">DODAVANJE</span><span class="p">:</span>
+            
+            
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">p</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">lokacija</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            
+            
+            <span class="n">DodajProstor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziProstore</span><span class="p">()</span>
+            
+            <span class="c1">#vidi ovo sta se desava, mozda destruktor eksplicitno</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+            
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">IZMENA</span><span class="p">:</span>
+            <span class="c1">#print(self.student)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="o">.</span><span class="n">lokacija</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lokacijaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            
+            
+            <span class="n">IzmeniProstor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prostor</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziProstore</span><span class="p">()</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span></div></div>
+            
+            
+<div class="viewcode-block" id="AutomobilCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.AutomobilCU">[docs]</a><span class="k">class</span> <span class="nc">AutomobilCU</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa koja opisuje view forme za insert i update nad entitetom automobil.</span>
+<span class="sd">    Nasledjuje klasu TkInter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">automobil</span><span class="p">,</span> <span class="n">operacija</span><span class="p">,</span> <span class="n">glavni</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param automobil: objekat automobila koji se obradjuje (create - prazan, postojeci - update)</span>
+<span class="sd">        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update</span>
+<span class="sd">        :param glavni: referenca na root view koji ga poziva</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        self.izabraniMenjac</span>
+<span class="sd">        self.izabraniProstor</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Automobil UD&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;220x300&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span> <span class="o">=</span> <span class="n">automobil</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">=</span> <span class="n">operacija</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniMenjac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">tip_menjaca</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span>
+        
+        
+        
+        <span class="c1">#referenca na glavni da se moze iskoristiti Osvezi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="n">Input</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#oznaka ce se kreirati sama i inkrementirati na odredjen nacin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Opis: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Duzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Sirina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Visina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Max. brzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;God. proizv: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Izloz. prostor: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Broj vrata: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sedistaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Broj sedista: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menjacLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Tip menjaca: &quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        <span class="n">ponudjenoProstora</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">prostori</span><span class="p">:</span>
+            <span class="n">ponudjenoProstora</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">)</span>
+        <span class="n">izborProstora</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ponudjenoProstora</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span> <span class="ow">in</span> <span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ponudjenoProstora</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">izborProstora</span><span class="p">,</span> <span class="o">*</span><span class="n">ponudjenoProstora</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sedistaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        <span class="n">ponudjenoMenjaca</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">TipMenjaca</span><span class="p">:</span>
+            <span class="n">ponudjenoMenjaca</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">izborMenjaca</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">tip_menjaca</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">izborMenjaca</span><span class="o">.</span><span class="n">set</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ponudjenoMenjaca</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">tip_menjaca</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menjacIzbor</span><span class="p">(</span><span class="n">izborMenjaca</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">izborMenjaca</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ponudjenoMenjaca</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menjacIzbor</span><span class="p">(</span><span class="n">izborMenjaca</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>            
+        <span class="bp">self</span><span class="o">.</span><span class="n">menjacMenu</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">izborMenjaca</span><span class="p">,</span> <span class="o">*</span><span class="n">ponudjenoMenjaca</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">menjacIzbor</span><span class="p">(</span><span class="n">izborMenjaca</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        
+        
+        <span class="c1">#napuni ostale vrednostima, ako se prosledi prazan student bice prazno</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">duzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">sirina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">visina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">broj_vrata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sedistaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">automobil</span><span class="o">.</span><span class="n">broj_sedista</span><span class="p">)</span>
+       
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Potvrdi&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AutomobilCU</span><span class="p">)</span>
+      
+        <span class="c1">#Pozicije</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span><span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sedistaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menjacLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sedistaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menjacMenu</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">columnspan</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">Input</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+    
+<div class="viewcode-block" id="AutomobilCU.prostorIzbor"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.AutomobilCU.prostorIzbor">[docs]</a>    <span class="k">def</span> <span class="nf">prostorIzbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">izbor</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija </span>
+<span class="sd">        </span>
+<span class="sd">        :param izbor: string vrednost oznake izlozbenog prostora</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="n">izbor</span></div>
+    
+<div class="viewcode-block" id="AutomobilCU.menjacIzbor"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.AutomobilCU.menjacIzbor">[docs]</a>    <span class="k">def</span> <span class="nf">menjacIzbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">izbor</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja setuje vrednost atributa tipa menjaca na vrednost izabranu iz drop down menija </span>
+<span class="sd">        </span>
+<span class="sd">        :param izbor: string vrednost imena enumeracije tipa menjaca</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniMenjac</span> <span class="o">=</span> <span class="n">izbor</span></div>
+        
+        
+<div class="viewcode-block" id="AutomobilCU.AutomobilCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.AutomobilCU.AutomobilCU">[docs]</a>    <span class="k">def</span> <span class="nf">AutomobilCU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome</span>
+<span class="sd">        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">DODAVANJE</span><span class="p">:</span>
+             
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">a</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">broj_sedista</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sedistaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">tip_menjaca</span> <span class="o">=</span> <span class="n">TipMenjaca</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniMenjac</span><span class="p">]</span>
+            
+            <span class="c1">#print(self.automobil)</span>
+            
+            <span class="n">DodajAutomobil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziAutomobile</span><span class="p">()</span>
+            
+            <span class="c1">#vidi ovo sta se desava, mozda destruktor eksplicitno</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+            
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">IZMENA</span><span class="p">:</span>
+            <span class="c1">#print(self.student)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">broj_sedista</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sedistaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="o">.</span><span class="n">tip_menjaca</span> <span class="o">=</span> <span class="n">TipMenjaca</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniMenjac</span><span class="p">]</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="p">)</span>
+            
+            <span class="n">IzmeniAutomobil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">automobil</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziAutomobile</span><span class="p">()</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span></div></div>
+            
+<div class="viewcode-block" id="DzipCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.DzipCU">[docs]</a><span class="k">class</span> <span class="nc">DzipCU</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa koja opisuje view forme za insert i update nad entitetom dzip.</span>
+<span class="sd">    Nasledjuje klasu TkInter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dzip</span><span class="p">,</span> <span class="n">operacija</span><span class="p">,</span> <span class="n">glavni</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param dzip: objekat dzipa koji se obradjuje (create - prazan, postojeci - update)</span>
+<span class="sd">        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update</span>
+<span class="sd">        :param glavni: referenca na root view koji ga poziva</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        
+        
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Dzip UD&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;220x300&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span> <span class="o">=</span> <span class="n">dzip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">=</span> <span class="n">operacija</span>
+        
+        <span class="c1">#self.izabraniMenjac = self.automobil.tip_menjaca</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span>
+       
+        
+        
+        <span class="c1">#referenca na glavni da se moze iskoristiti Osvezi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="n">Input</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#oznaka ce se kreirati sama i inkrementirati na odredjen nacin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Opis: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Duzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Sirina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Visina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Max. brzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;God. proizv: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Izloz. prostor: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Broj vrata: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Pogon 4x4: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskihLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Konjskih snaga: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spustajucaKlupaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Spustajuca klupa: &quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        <span class="n">ponudjenoProstora</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">prostori</span><span class="p">:</span>
+            <span class="n">ponudjenoProstora</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">)</span>
+        <span class="n">izborProstora</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ponudjenoProstora</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span> <span class="ow">in</span> <span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ponudjenoProstora</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">izborProstora</span><span class="p">,</span> <span class="o">*</span><span class="n">ponudjenoProstora</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
+        <span class="c1">#da checkbox oslikava vrednost propertija pri izmeni:</span>
+        <span class="n">vrednost</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">vrednost</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1">#self.izborPogona.trace(&#39;w&#39;, self.test)</span>
+           
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span> 
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
+        <span class="n">vrednost1</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">vrednost1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">klupaBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        
+         
+        <span class="c1">#napuni ostale vrednostima, ako se prosledi prazan student bice prazno</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">duzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">sirina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">visina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">broj_vrata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dzip</span><span class="o">.</span><span class="n">konjskih_snaga</span><span class="p">)</span>
+       
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Potvrdi&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DzipCU</span><span class="p">)</span>
+      
+        <span class="c1">#Pozicije</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span><span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskihLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spustajucaKlupaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">klupaBox</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">columnspan</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">Input</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    def test(self, *args):</span>
+<span class="sd">        print(self.izborPogona.get())</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+<div class="viewcode-block" id="DzipCU.prostorIzbor"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.DzipCU.prostorIzbor">[docs]</a>    <span class="k">def</span> <span class="nf">prostorIzbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">izbor</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija </span>
+<span class="sd">        </span>
+<span class="sd">        :param izbor: string vrednost oznake izlozbenog prostora</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="n">izbor</span></div>
+    
+        
+<div class="viewcode-block" id="DzipCU.DzipCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.DzipCU.DzipCU">[docs]</a>    <span class="k">def</span> <span class="nf">DzipCU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome</span>
+<span class="sd">        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">DODAVANJE</span><span class="p">:</span>
+             
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">dz</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">konjskih_snaga</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            
+            <span class="n">DodajDzip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziDzipove</span><span class="p">()</span>
+            
+            <span class="c1">#vidi ovo sta se desava, mozda destruktor eksplicitno</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+            
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">IZMENA</span><span class="p">:</span>
+            <span class="c1">#print(self.student)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">konjskih_snaga</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            </span>
+<span class="sd">            print(&quot;Pri izmeni:&quot;)</span>
+<span class="sd">            print(&quot;Vrednost pogona i klupe posle&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            print(&quot;izbor pogona &quot; + str(self.izborPogona.get()))</span>
+<span class="sd">            print(&quot;izbor pogona &quot; + str(self.izborKlupe.get()))</span>
+<span class="sd">            </span>
+<span class="sd">            print(&#39;Vrednost propertija&#39;)</span>
+<span class="sd">            print(self.dzip.pogon_na_sva_cetiri_tocka)</span>
+<span class="sd">            print(self.dzip.spustajuca_zadnja_klupa)</span>
+<span class="sd">            </span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            
+            
+            <span class="n">IzmeniDzip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziDzipove</span><span class="p">()</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span></div></div>
+            
+            
+<div class="viewcode-block" id="KvadCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.KvadCU">[docs]</a><span class="k">class</span> <span class="nc">KvadCU</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Klasa koja opisuje view forme za insert i update nad entitetom kvad.</span>
+<span class="sd">    Nasledjuje klasu TkInter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kvad</span><span class="p">,</span> <span class="n">operacija</span><span class="p">,</span> <span class="n">glavni</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        </span>
+<span class="sd">        :param kvad: objekat kvada koji se obradjuje (create - prazan, postojeci - update)</span>
+<span class="sd">        :param operacija: enumeracija koja odredjuje da li se forma koristi za insert ili update</span>
+<span class="sd">        :param glavni: referenca na root view koji ga poziva</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        
+        
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">wm_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Kvad UD&quot;</span><span class="p">)</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;220x300&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">Centriraj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span> <span class="o">=</span> <span class="n">kvad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">=</span> <span class="n">operacija</span>
+        
+        <span class="c1">#self.izabraniMenjac = self.automobil.tip_menjaca</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span>
+       
+        
+        
+        <span class="c1">#referenca na glavni da se moze iskoristiti Osvezi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span> <span class="o">=</span> <span class="n">glavni</span>
+        
+        <span class="n">rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rowconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="n">Input</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="c1">#oznaka ce se kreirati sama i inkrementirati na odredjen nacin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Opis: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Duzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Sirina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Visina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Max. brzina: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;God. proizv: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Izloz. prostor: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Pogon 4x4: &quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stvariLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Prostor za stvari: &quot;</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
+        
+        <span class="n">ponudjenoProstora</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">prostori</span><span class="p">:</span>
+            <span class="n">ponudjenoProstora</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="p">)</span>
+        <span class="n">izborProstora</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ponudjenoProstora</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span><span class="o">.</span><span class="n">oznaka</span> <span class="ow">in</span> <span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">izborProstora</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ponudjenoProstora</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">izborProstora</span><span class="p">,</span> <span class="o">*</span><span class="n">ponudjenoProstora</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">prostorIzbor</span><span class="p">(</span><span class="n">izborProstora</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        
+           
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborStvari</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborStvari</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">prostor_za_stvari</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stvariBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborStvari</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        
+         
+        <span class="c1">#napuni ostale vrednostima, ako se prosledi prazan student bice prazno</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">opis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">duzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">sirina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">visina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">maksimalna_brzina</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">kvad</span><span class="o">.</span><span class="n">godina_proizvodnje</span><span class="p">)</span>
+        
+       
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Potvrdi&quot;</span><span class="p">,</span> <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KvadCU</span><span class="p">)</span>
+      
+        <span class="c1">#Pozicije</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span><span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stvariLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="n">E</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prostorMenu</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stvariBox</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">potvrdiBTN</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">columnspan</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">Input</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">sticky</span> <span class="o">=</span> <span class="s1">&#39;NESW&#39;</span> <span class="p">)</span>
+        
+    
+<div class="viewcode-block" id="KvadCU.prostorIzbor"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.KvadCU.prostorIzbor">[docs]</a>    <span class="k">def</span> <span class="nf">prostorIzbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">izbor</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja setuje vrednost atributa izlozbenog prostora na vrednost izabranu iz drop down menija </span>
+<span class="sd">        </span>
+<span class="sd">        :param izbor: string vrednost oznake izlozbenog prostora</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span> <span class="o">=</span> <span class="n">izbor</span></div>
+    
+        
+<div class="viewcode-block" id="KvadCU.KvadCU"><a class="viewcode-back" href="../../rstfajlovi/view/modulForme.html#view.FORME.KvadCU.KvadCU">[docs]</a>    <span class="k">def</span> <span class="nf">KvadCU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Metoda koja se okida po kliku na potvrdiBTN dugme, koja odreduje koji tip operacije je forma radila i prema tome</span>
+<span class="sd">        poziva metode kontrolera za perzistiranje i metode root view-a za osvezavanje pogleda.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">DODAVANJE</span><span class="p">:</span>
+             
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">kv</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">prostor_za_stvari</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborStvari</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            
+            
+            <span class="n">DodajKvad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziKvadove</span><span class="p">()</span>
+            
+            <span class="c1">#vidi ovo sta se desava, mozda destruktor eksplicitno</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span>
+            
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operacija</span> <span class="o">==</span> <span class="n">Operacija</span><span class="o">.</span><span class="n">IZMENA</span><span class="p">:</span>
+            <span class="c1">#print(self.student)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">oznaka</span> <span class="o">=</span> <span class="n">kv</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opisEntry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">duzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">sirina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sirinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">visina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">maksimalna_brzina</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">brzinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="o">.</span><span class="n">prostor_za_stvari</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborStvari</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            
+           
+            <span class="n">IzmeniKvad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kvad</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">glavni</span><span class="o">.</span><span class="n">OsveziKvadove</span><span class="p">()</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">withdraw</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Tim22.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
