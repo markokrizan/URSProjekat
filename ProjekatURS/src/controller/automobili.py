@@ -47,22 +47,22 @@ def ObrisiAutomobil(oznaka):
     
 def nadjiAutomobile(kriterijum):
     trazeniAutomobili = []
-    q = kriterijum.lower()
+    q = str(kriterijum.lower())
     if (kriterijum != ''):
         for i in Projekat().automobili:
-            if(q in i.oznaka.lower() or q in i.opis.lower() or int(q) == i.__duzina or int(q) == i.sirina 
-               or int(q) == i.__visina or int(q) == i.maksimalna_brzina or q in str(i.godina_proizvodnje) or int(q) == i.broj_vrata
-                or int(q) == i.broj_sedista or q in str(i.tip_menjaca.name)):
+            if(q in i.oznaka.lower() or q in str(i.opis.lower()) or q in str(i.duzina) or q in str(i.sirina) 
+               or q in str(i.visina) or q in str(i.maksimalna_brzina) or q in str(i.godina_proizvodnje) or q in str(i.broj_vrata)
+                or q in str(i.broj_sedista) or q in str(i.tip_menjaca.name)):
                 trazeniAutomobili.append(i)
         return trazeniAutomobili
     
     
 def sortirajAutomobile(kriterijum):
     if kriterijum == 'maksimalna_brzina':
-        sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.maksimalna_brzina.lower())
+        sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.maksimalna_brzina)
         return sortiranaKolekcija
     elif kriterijum == 'broj_sedista':
-        sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.broj_sedista.lower())
+        sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.broj_sedista)
         return sortiranaKolekcija
     else:
         raise ValueError('Ne postoji takav kriterijum') 

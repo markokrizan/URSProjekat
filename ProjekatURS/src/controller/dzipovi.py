@@ -49,23 +49,22 @@ def ObrisiDzip(oznaka):
     
 def nadjiDzipove(kriterijum, pogon, zadnja_klupa):
     trazeniDzipovi = []
-    q = kriterijum.lower()
+    q = str(kriterijum.lower())
     #pogon i zadnja klpua?
-    if (kriterijum != ''):
-        for i in Projekat().dzipovi:
-            if(q in i.oznaka.lower() or q in i.opis.lower() or int(q) == i.__duzina or int(q) == i.sirina 
-               or int(q) == i.__visina or int(q) == i.maksimalna_brzina or q in str(i.godina_proizvodnje) or int(q) == i.konjskih_snaga
-                or pogon == i.pogon_na_sva_cetiri_tocka or zadnja_klupa == i.spustajuca_zadnja_klupa):
-                trazeniDzipovi.append(i)
-        return trazeniDzipovi
+    for i in Projekat().dzipovi:
+        if((q in i.oznaka.lower() or q in str(i.opis.lower()) or q in str(i.duzina) or q in str(i.sirina) 
+           or q in str(i.visina) or q in str(i.maksimalna_brzina) or q in str(i.godina_proizvodnje) or q in str(i.konjskih_snaga))
+            and( pogon == i.pogon_na_sva_cetiri_tocka and zadnja_klupa == i.spustajuca_zadnja_klupa)):
+            trazeniDzipovi.append(i)
+    return trazeniDzipovi
     
     
 def sortirajDzipove(kriterijum):
     if kriterijum == 'maksimalna_brzina':
-        sortiranaKolekcija = sorted(Projekat().dzipovi, key=lambda x: x.maksimalna_brzina.lower())
+        sortiranaKolekcija = sorted(Projekat().dzipovi, key=lambda x: x.maksimalna_brzina)
         return sortiranaKolekcija
     elif kriterijum == 'konjskih_snaga':
-        sortiranaKolekcija = sorted(Projekat().dzipovi, key=lambda x: x.konjskih_snaga.lower())
+        sortiranaKolekcija = sorted(Projekat().dzipovi, key=lambda x: x.konjskih_snaga)
         return sortiranaKolekcija
     else:
         raise ValueError('Ne postoji takav kriterijum')

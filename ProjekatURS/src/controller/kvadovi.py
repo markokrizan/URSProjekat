@@ -48,21 +48,21 @@ def ObrisiKvad(oznaka):
     
 def nadjiKvadove(kriterijum, pogon, prostor):
     trazeniKvadovi = []
-    q = kriterijum.lower()
-    if (kriterijum != ''):
-        for i in Projekat().kvadovi:
-            if(q in i.oznaka.lower() or q in i.opis.lower() or int(q) == i.__duzina or int(q) == i.sirina 
-               or int(q) == i.__visina or int(q) == i.maksimalna_brzina or q in str(i.godina_proizvodnje)
-                or pogon == i.pogon_na_sva_cetiri_tocka or prostor == i.prostor_za_stvari):
-                trazeniKvadovi.append(i)
-        return trazeniKvadovi
+    q = str(kriterijum.lower())
+    
+    for i in Projekat().kvadovi:
+        if((q in i.oznaka.lower() or q in str(i.opis.lower()) or q in str(i.duzina) or q in str(i.sirina) 
+           or q in str(i.visina) or q in str(i.maksimalna_brzina) or q in str(i.godina_proizvodnje))
+            and (pogon == i.pogon_na_sva_cetiri_tocka and prostor == i.prostor_za_stvari)):
+            trazeniKvadovi.append(i)
+    return trazeniKvadovi
     
 def sortirajKvadove(kriterijum):
     if kriterijum == 'maksimalna_brzina':
-        sortiranaKolekcija = sorted(Projekat().kvadovi, key=lambda x: x.maksimalna_brzina.lower())
+        sortiranaKolekcija = sorted(Projekat().kvadovi, key=lambda x: x.maksimalna_brzina)
         return sortiranaKolekcija
     elif kriterijum == 'godina_proizvodnje':
-        sortiranaKolekcija = sorted(Projekat().kvadovi, key=lambda x: x.godina_proizvodnje.lower())
+        sortiranaKolekcija = sorted(Projekat().kvadovi, key=lambda x: x.godina_proizvodnje)
         return sortiranaKolekcija
     else:
         raise ValueError('Ne postoji takav kriterijum')

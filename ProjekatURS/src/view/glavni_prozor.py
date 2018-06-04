@@ -9,9 +9,11 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 
-from controller.automobili import automobilIzOznake, ObrisiAutomobil
-from controller.dzipovi import dzipIzOznake, ObrisiDzip
-from controller.prostori import prostorIzOznake, ObrisiProstor
+from controller.automobili import automobilIzOznake, ObrisiAutomobil,\
+    nadjiAutomobile, sortirajAutomobile
+from controller.dzipovi import dzipIzOznake, ObrisiDzip, nadjiDzipove,\
+    sortirajDzipove
+from controller.prostori import prostorIzOznake, ObrisiProstor, nadjiProstore
 from model.salon import IzlozbeniProstor, Automobil, Dzip, Kvad
 from model.singleton import Projekat
 import tkinter as tk
@@ -21,7 +23,8 @@ from view.detaljiDzipovi import DetaljiDzipovi
 from view.detaljiKvadovi import DetaljiKvadovi
 from view.detaljiProstori import DetaljiProstor
 from view.gui_utils import Centriraj
-from controller.kvadovi import kvadIzOznake, ObrisiKvad
+from controller.kvadovi import kvadIzOznake, ObrisiKvad, nadjiKvadove,\
+    sortirajKvadove
 
 
 class GlavniProzor(tk.Tk):
@@ -137,7 +140,7 @@ class GlavniProzor(tk.Tk):
         
         
         
-        traziBTN = Button(CRUDBarProstori, text = "Trazi")
+        traziBTN = Button(CRUDBarProstori, text = "Trazi", command = lambda: self.NadjiProstor(traziEntry.get()))
         traziBTN.pack(side = RIGHT, padx=1, pady=1)
         
         traziEntry = Entry(CRUDBarProstori)
@@ -203,11 +206,13 @@ class GlavniProzor(tk.Tk):
         
         
         
-        traziAutomobiliBTN = Button(CRUDBarAutomobili, text = "Trazi")
+        traziAutomobiliBTN = Button(CRUDBarAutomobili, text = "Trazi", command = lambda: self.NadjiAutomobil(traziAutomobiliEntry.get()))
         traziAutomobiliBTN.pack(side = RIGHT, padx=1, pady=1)
         
         traziAutomobiliEntry = Entry(CRUDBarAutomobili)
         traziAutomobiliEntry.pack(side = RIGHT, padx=1, pady=1)
+        
+    
         
         
         
@@ -220,12 +225,12 @@ class GlavniProzor(tk.Tk):
         
         Label(SORTBarAutomobili, text="Sortiraj po: ").pack(side = LEFT, padx=1, pady=1)
         
-        ponudjeno = ['Maksimalna brizna', 'Broj sedista']
-        izbor = StringVar()
-        izbor.set(ponudjeno[0])
+        ponudjeno = ['Maksimalna brzina', 'Broj sedista']
+        self.izbor = StringVar()
+        self.izbor.set(ponudjeno[0])
         
         #Unused argument? _ convention, stavio x da primetim
-        automobilSortMenu = OptionMenu(SORTBarAutomobili, izbor, *ponudjeno, command = lambda x: self.SortirajAutomobile(izbor.get()) )
+        automobilSortMenu = OptionMenu(SORTBarAutomobili, self.izbor, *ponudjeno, command = lambda x: self.SortirajAutomobile(self.izbor.get()) )
         automobilSortMenu.pack(side = LEFT, padx=1, pady=1)
         
         SORTBarAutomobili.grid(row = 1, column = 0, columnspan = 50, rowspan = 1, sticky = 'NESW' )
@@ -286,11 +291,23 @@ class GlavniProzor(tk.Tk):
         
         
         
-        traziDzipoviBTN = Button(CRUDBarDzipovi, text = "Trazi")
+        traziDzipoviBTN = Button(CRUDBarDzipovi, text = "Trazi", command = lambda: self.NadjiDzip(traziDzipoviEntry.get()))
         traziDzipoviBTN.pack(side = RIGHT, padx=1, pady=1)
         
         traziDzipoviEntry = Entry(CRUDBarDzipovi)
         traziDzipoviEntry.pack(side = RIGHT, padx=1, pady=1)
+        
+        self.saPogonom = IntVar()
+        self.saKlupom = IntVar()
+        
+        pogonCheck = Checkbutton(CRUDBarDzipovi, onvalue = True, offvalue = False, text = "4x4 ", variable = self.saPogonom)
+        pogonCheck.pack(side = RIGHT, padx=1, pady=1)
+        
+        klupaCheck = Checkbutton(CRUDBarDzipovi,onvalue = True, offvalue = False, text = "Zadnja klupa ", variable = self.saKlupom)
+        klupaCheck.pack(side = RIGHT, padx=1, pady=1)
+        
+        refreshButton = Button(CRUDBarDzipovi, text = "R", command = self.OsveziDzipove)
+        refreshButton.pack(side = RIGHT, padx=1, pady=1)
         
         
         
@@ -303,12 +320,12 @@ class GlavniProzor(tk.Tk):
         
         Label(SORTBarDzipovi, text="Sortiraj po: ").pack(side = LEFT, padx=1, pady=1)
         
-        ponudjeno = ['Maksimalna brizna', 'Konjeske snage']
-        izbor = StringVar()
-        izbor.set(ponudjeno[0])
+        ponudjeno = ['Maksimalna brzina', 'Konjskih snaga']
+        self.izborDzip = StringVar()
+        self.izborDzip.set(ponudjeno[0])
         
         #Unused argument? _ convention, stavio x da primetim
-        dzipoviSortMenu = OptionMenu(SORTBarDzipovi, izbor, *ponudjeno, command = lambda x: self.SortirajDzipove(izbor.get()) )
+        dzipoviSortMenu = OptionMenu(SORTBarDzipovi, self.izborDzip, *ponudjeno, command = lambda x: self.SortirajDzipove(self.izborDzip.get()) )
         dzipoviSortMenu.pack(side = LEFT, padx=1, pady=1)
         
         SORTBarDzipovi.grid(row = 1, column = 0, columnspan = 50, rowspan = 1, sticky = 'NESW' )
@@ -370,11 +387,23 @@ class GlavniProzor(tk.Tk):
         
         
         
-        traziKvadBTN = Button(CRUDBarKvadovi, text = "Trazi")
+        traziKvadBTN = Button(CRUDBarKvadovi, text = "Trazi", command = lambda: self.NadjiKvad(traziKvadEntry.get()))
         traziKvadBTN.pack(side = RIGHT, padx=1, pady=1)
         
         traziKvadEntry = Entry(CRUDBarKvadovi)
         traziKvadEntry.pack(side = RIGHT, padx=1, pady=1)
+        
+        self.saPogonomKvad = IntVar()
+        self.saProstoromKvad = IntVar()
+        
+        pogonCheckKvad = Checkbutton(CRUDBarKvadovi, onvalue = True, offvalue = False, text = "4x4 ", variable = self.saPogonomKvad)
+        pogonCheckKvad.pack(side = RIGHT, padx=1, pady=1)
+        
+        stvariCheck = Checkbutton(CRUDBarKvadovi,onvalue = True, offvalue = False, text = "Prostor za stvari ", variable = self.saProstoromKvad)
+        stvariCheck.pack(side = RIGHT, padx=1, pady=1)
+        
+        refreshButton = Button(CRUDBarKvadovi, text = "R", command = self.OsveziKvadove)
+        refreshButton.pack(side = RIGHT, padx=1, pady=1)
         
         
         
@@ -387,12 +416,12 @@ class GlavniProzor(tk.Tk):
         
         Label(SORTBARKvadovi, text="Sortiraj po: ").pack(side = LEFT, padx=1, pady=1)
         
-        ponudjeno = ['Maksimalna brizna', 'Godina proizvodnje']
-        izbor = StringVar()
-        izbor.set(ponudjeno[0])
+        ponudjeno = ['Maksimalna brzina', 'Godina proizvodnje']
+        self.izborKvad = StringVar()
+        self.izborKvad.set(ponudjeno[0])
         
         #Unused argument? _ convention, stavio x da primetim
-        kvadoviSortMenu = OptionMenu(SORTBARKvadovi, izbor, *ponudjeno, command = lambda x: self.SortirajKvadove(izbor.get()) )
+        kvadoviSortMenu = OptionMenu(SORTBARKvadovi, self.izborKvad, *ponudjeno, command = lambda x: self.SortirajKvadove(self.izborKvad.get()) )
         kvadoviSortMenu.pack(side = LEFT, padx=1, pady=1)
         
         SORTBARKvadovi.grid(row = 1, column = 0, columnspan = 50, rowspan = 1, sticky = 'NESW' )
@@ -606,7 +635,97 @@ class GlavniProzor(tk.Tk):
             
         except IndexError:
             messagebox.showerror("Greska", "Nista nije selektovano")
+            
+    #PRETRAGA:
     
+    def NadjiProstor(self, query):
+        if(query != ''):
+            trazeniProstori = nadjiProstore(query)
+            for i in self.treeProstori.get_children():
+                self.treeProstori.delete(i)
+            #ponovo ucitaj iz kolekcije
+            for index, i in enumerate(trazeniProstori):
+                self.treeProstori.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.lokacija))
+        else:
+            self.OsveziProstore()
+            
+    def NadjiAutomobil(self, query):
+        if(query != ''):
+            trazeniAutomobili = nadjiAutomobile(query)
+            for i in self.treeAutomobili.get_children():
+                self.treeAutomobili.delete(i)
+            #ponovo ucitaj iz kolekcije
+            for index, i in enumerate(trazeniAutomobili):
+                self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        else:
+            self.OsveziAutomobile()
+    
+    def NadjiDzip(self, query):
+        pogon = True if self.saPogonom.get() == 1 else False
+        zadnja_klupa = True if self.saKlupom.get() == 1 else False
+        trazeniDzipovi = nadjiDzipove(query, pogon, zadnja_klupa)
+        for i in self.treeDzipovi.get_children():
+            self.treeDzipovi.delete(i)
+        #ponovo ucitaj iz kolekcije
+        for index, i in enumerate(trazeniDzipovi):
+            self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+       
+    
+    def NadjiKvad(self, query):
+        pogon = True if self.saPogonomKvad.get() == 1 else False
+        stvari = True if self.saProstoromKvad.get() == 1 else False
+        trazeniKvadovi = nadjiKvadove(query, pogon, stvari)
+        for i in self.treeKvadovi.get_children():
+            self.treeKvadovi.delete(i)
+        #ponovo ucitaj iz kolekcije
+        for index, i in enumerate(trazeniKvadovi):
+            self.treeKvadovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        
+        
+    
+    #SORTIRANJE:
+    
+    def SortirajAutomobile(self, kriterijum):
+        if (kriterijum == 'Maksimalna brzina'):
+            sortiranaKolekcija = sortirajAutomobile('maksimalna_brzina')
+            for i in self.treeAutomobili.get_children():
+                self.treeAutomobili.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        elif(kriterijum == 'Broj sedista'):
+            sortiranaKolekcija = sortirajAutomobile('broj_sedista')
+            for i in self.treeAutomobili.get_children():
+                self.treeAutomobili.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeAutomobili.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+    
+    def SortirajDzipove(self, kriterijum):
+        if (kriterijum == 'Maksimalna brzina'):
+            sortiranaKolekcija = sortirajDzipove('maksimalna_brzina')
+            for i in self.treeDzipovi.get_children():
+                self.treeDzipovi.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        elif(kriterijum == 'Konjskih snaga'):
+            sortiranaKolekcija = sortirajDzipove('konjskih_snaga')
+            for i in self.treeDzipovi.get_children():
+                self.treeDzipovi.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeDzipovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+    
+    def SortirajKvadove(self, kriterijum):
+        if (kriterijum == 'Maksimalna brzina'):
+            sortiranaKolekcija = sortirajKvadove('maksimalna_brzina')
+            for i in self.treeKvadovi.get_children():
+                self.treeKvadovi.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeKvadovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
+        elif(kriterijum == 'Godina proizvodnje'):
+            sortiranaKolekcija = sortirajKvadove('godina_proizvodnje')
+            for i in self.treeKvadovi.get_children():
+                self.treeKvadovi.delete(i)
+            for index, i in enumerate(sortiranaKolekcija):
+                self.treeKvadovi.insert("", 'end' ,text = index + 1, values = (i.oznaka, i.opis, i.izlozbeni_prostor.oznaka))
     
     
         

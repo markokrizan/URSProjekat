@@ -70,5 +70,10 @@ if __name__ == '__main__':
     Pickle('automobili.bin', automobili)
     
     '''
-    print(TipMenjaca['MANUELNI'])
+    #print(TipMenjaca['MANUELNI'])
+    
+    a = str(123)
+    b = str(1)
+    if (b in a):
+        print("sljaka")
     
