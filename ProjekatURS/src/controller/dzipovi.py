@@ -82,8 +82,10 @@ def nadjiDzipove(kriterijum, pogon, zadnja_klupa):
     :param pogon: bool vrednost postojanja pogona na sva 4 tocka
     :param zadnja_klupa: bool vrednost postojanja spustajuce zadnje klupe
     '''
+    if(kriterijum is None or pogon is None or zadnja_klupa is None):
+        raise ValueError('Parametrni ne smeju biti nedefinisani')
     trazeniDzipovi = []
-    q = str(kriterijum.lower())
+    q = str(kriterijum).lower()
     #pogon i zadnja klpua?
     for i in Projekat().dzipovi:
         if((q in i.oznaka.lower() or q in str(i.opis.lower()) or q in str(i.duzina) or q in str(i.sirina) 

@@ -80,8 +80,10 @@ def nadjiAutomobile(kriterijum):
     
     :param kriterijum: string vrednost kriterijuma po kojem ce se vrsiti pretraga
     '''
+    if(kriterijum is None):
+        raise ValueError("Kriterijum ne sme biti nedefinisan")
     trazeniAutomobili = []
-    q = str(kriterijum.lower())
+    q = str(kriterijum).lower()
     if (kriterijum != ''):
         for i in Projekat().automobili:
             if(q in i.oznaka.lower() or q in str(i.opis.lower()) or q in str(i.duzina) or q in str(i.sirina) 
@@ -115,7 +117,8 @@ def prostor_automobila(automobil):
     
     :param automobil: objekat klase automobil
     '''
-    return automobil.izlozbeni_prostor
+    if (automobil != None):
+        return automobil.izlozbeni_prostor
     
 
     

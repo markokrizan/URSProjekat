@@ -404,11 +404,11 @@ class DzipCU(tk.Tk):
         self.vrataEntry = Entry(Input)
         
         
-        self.izborPogona = IntVar()
+        self.izborPogonaDzip = IntVar()
         #da checkbox oslikava vrednost propertija pri izmeni:
         vrednost = 1 if self.dzip.pogon_na_sva_cetiri_tocka == True else 0
-        self.izborPogona.set(vrednost)
-        self.pogonBox = Checkbutton(Input, variable = self.izborPogona, onvalue = 1, offvalue = 0)
+        self.izborPogonaDzip.set(vrednost)
+        self.pogonBox = Checkbutton(Input, variable = self.izborPogonaDzip, onvalue = 1, offvalue = 0)
         
         #self.izborPogona.trace('w', self.test)
            
@@ -494,12 +494,12 @@ class DzipCU(tk.Tk):
             self.dzip.godina_proizvodnje = int(self.godinaEntry.get())
             self.dzip.izlozbeni_prostor = prostorIzOznake(self.izabraniProstor)
             self.dzip.broj_vrata = int(self.vrataEntry.get())
-            self.dzip.pogon_na_sva_cetiri_tocka = True if self.izborPogona.get() == 1 else False
+            self.dzip.pogon_na_sva_cetiri_tocka = True if self.izborPogonaDzip.get() == 1 else False
             self.dzip.konjskih_snaga = int(self.konjskihEntry.get())
             self.dzip.spustajuca_zadnja_klupa = True if self.izborKlupe.get() == 1 else False
             
-            print(self.izborPogona.get())
-            print(self.izborKlupe.get())
+            print(self.izborPogonaDzip.get())
+            print(self.izborPogonaDzip.get())
             
             DodajDzip(self.dzip)
             
@@ -520,7 +520,7 @@ class DzipCU(tk.Tk):
             self.dzip.godina_proizvodnje = int(self.godinaEntry.get())
             self.dzip.izlozbeni_prostor = prostorIzOznake(self.izabraniProstor)
             self.dzip.broj_vrata = int(self.vrataEntry.get())
-            self.dzip.pogon_na_sva_cetiri_tocka = True if self.izborPogona.get() == 1 else False
+            self.dzip.pogon_na_sva_cetiri_tocka = True if self.izborPogonaDzip.get() == 1 else False
             self.dzip.konjskih_snaga = int(self.konjskihEntry.get())
             self.dzip.spustajuca_zadnja_klupa = True if self.izborKlupe.get() == 1 else False
             
