@@ -8,7 +8,7 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       model/osnovni
+	       model/modulOsnovni.rst
 		
 	   
 	#. Modul salon:
@@ -16,13 +16,13 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       model/salon
+	       model/modulSalon.rst
 	       
 	#. Modul singleton:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       model/singleton
+	       model/modulSingleton.rst
 	       
 	

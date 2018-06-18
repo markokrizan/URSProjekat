@@ -8,7 +8,7 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       controller/automobili
+	       controller/modulAutomobili.rst
 		
 	   
 	#. Modul dzipovi:
@@ -16,18 +16,18 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       controller/dzipovi
+	       controller/modulDzipovi.rst
 	       
 	#. Modul kvadovi:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       controller/kvadovi
+	       controller/modulKvadovi.rst
 	       
 	#. Modul prostori:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       controller/prostori
+	       controller/modulProstori.rst

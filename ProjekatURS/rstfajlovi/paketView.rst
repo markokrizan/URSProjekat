@@ -8,7 +8,7 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/detaljiAutomobili
+	       view/modulDetaljiAutomobili.rst
 		
 	   
 	#. Modul detaljiDzipovi:
@@ -16,28 +16,28 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/detaljiDzipovi
+	       view/modulDetaljiDzipovi.rst
 	       
 	#. Modul detaljiKvadovi:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/detaljiKvadovi
+	       view/modulDetaljiKvadovi.rst
 	       
 	#. Modul detaljiProstori:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/detaljiProstori
+	       view/modulDetaljiProstori.rst
 	       
 	#. Modul FORME:
 	
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/FORME
+	       view/modulForme.rst
 	       
 	       
 	#. Modul glavni_prozor:
@@ -45,4 +45,4 @@ Sadrzi module:
 	    .. toctree::
 	       :maxdepth: 2
 	       
-	       view/glavni_prozor
+	       view/modulGlavniProzor.rst

@@ -9,7 +9,7 @@
     <title>view.FORME &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -436,11 +436,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">Input</span><span class="p">)</span>
         
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>
         <span class="c1">#da checkbox oslikava vrednost propertija pri izmeni:</span>
         <span class="n">vrednost</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">vrednost</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">vrednost</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pogonBox</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="p">,</span> <span class="n">onvalue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">offvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
         
         <span class="c1">#self.izborPogona.trace(&#39;w&#39;, self.test)</span>
            
@@ -526,12 +526,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">konjskih_snaga</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
             
-            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             
             <span class="n">DodajDzip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="p">)</span>
             
@@ -552,7 +552,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">godina_proizvodnje</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">godinaEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">izlozbeni_prostor</span> <span class="o">=</span> <span class="n">prostorIzOznake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">izabraniProstor</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">broj_vrata</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vrataEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogona</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">pogon_na_sva_cetiri_tocka</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborPogonaDzip</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">konjskih_snaga</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">konjskihEntry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dzip</span><span class="o">.</span><span class="n">spustajuca_zadnja_klupa</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">izborKlupe</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
             
@@ -794,7 +794,7 @@
       &copy;2018, Tim22.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

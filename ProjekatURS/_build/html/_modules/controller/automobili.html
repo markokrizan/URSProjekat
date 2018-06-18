@@ -9,7 +9,7 @@
     <title>controller.automobili &#8212; Dokumentacija za projekat iz predmeta Uvod u razvoj softvera 1.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -112,8 +112,10 @@
 <span class="sd">    </span>
 <span class="sd">    :param kriterijum: string vrednost kriterijuma po kojem ce se vrsiti pretraga</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">kriterijum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Kriterijum ne sme biti nedefinisan&quot;</span><span class="p">)</span>
     <span class="n">trazeniAutomobili</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">kriterijum</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">kriterijum</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">kriterijum</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">automobili</span><span class="p">:</span>
             <span class="k">if</span><span class="p">(</span><span class="n">q</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">oznaka</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">duzina</span><span class="p">)</span> <span class="ow">or</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">sirina</span><span class="p">)</span> 
@@ -137,7 +139,7 @@
         <span class="n">sortiranaKolekcija</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Projekat</span><span class="p">()</span><span class="o">.</span><span class="n">automobili</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">broj_sedista</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sortiranaKolekcija</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Ne postoji takav kriterijum&#39;</span><span class="p">)</span> </div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Nepostojeci ili nedefinisani kriterijum&#39;</span><span class="p">)</span> </div>
     
 
 <div class="viewcode-block" id="prostor_automobila"><a class="viewcode-back" href="../../rstfajlovi/controller/modulAutomobili.html#controller.automobili.prostor_automobila">[docs]</a><span class="k">def</span> <span class="nf">prostor_automobila</span><span class="p">(</span><span class="n">automobil</span><span class="p">):</span>
@@ -147,7 +149,8 @@
 <span class="sd">    </span>
 <span class="sd">    :param automobil: objekat klase automobil</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span></div>
+    <span class="k">if</span> <span class="p">(</span><span class="n">automobil</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">automobil</span><span class="o">.</span><span class="n">izlozbeni_prostor</span></div>
     
 
     
@@ -190,7 +193,7 @@
       &copy;2018, Tim22.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

@@ -15,7 +15,7 @@ from model.salon import Automobil, Dzip
 
 
 #nadjiAutomobile:
-def test_nadji_automobi():
+def test_nadji_automobil():
     a = nadjiAutomobile('automobil_za_test')
     assert a!= None
     assert a[0].opis == 'automobil_za_test'

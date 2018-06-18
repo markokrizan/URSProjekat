@@ -107,7 +107,7 @@ def sortirajAutomobile(kriterijum):
         sortiranaKolekcija = sorted(Projekat().automobili, key=lambda x: x.broj_sedista)
         return sortiranaKolekcija
     else:
-        raise ValueError('Ne postoji takav kriterijum') 
+        raise ValueError('Nepostojeci ili nedefinisani kriterijum') 
     
 
 def prostor_automobila(automobil):
